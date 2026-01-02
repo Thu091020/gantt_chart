@@ -1,0 +1,417 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "name": "VCI Resource Planning Design System",
+  "version": "1.0.0",
+  "description": "Design tokens for Dark (Cyan/Slate Tech) and Light (Blue) themes",
+  
+  "dark": {
+    "$description": "Digital/Tech Theme - Cyan & Slate",
+    
+    "color": {
+      "background": {
+        "$value": "hsl(215, 28%, 10%)",
+        "$type": "color",
+        "hex": "#141a21"
+      },
+      "foreground": {
+        "$value": "hsl(195, 100%, 95%)",
+        "$type": "color",
+        "hex": "#e6faff"
+      },
+      "card": {
+        "$value": "hsl(215, 32%, 12%)",
+        "$type": "color",
+        "hex": "#151d28"
+      },
+      "cardForeground": {
+        "$value": "hsl(195, 100%, 95%)",
+        "$type": "color",
+        "hex": "#e6faff"
+      },
+      "popover": {
+        "$value": "hsl(215, 32%, 14%)",
+        "$type": "color",
+        "hex": "#18222f"
+      },
+      "popoverForeground": {
+        "$value": "hsl(195, 100%, 95%)",
+        "$type": "color",
+        "hex": "#e6faff"
+      },
+      "primary": {
+        "$value": "hsl(187, 92%, 50%)",
+        "$type": "color",
+        "hex": "#0acaef"
+      },
+      "primaryForeground": {
+        "$value": "hsl(215, 28%, 10%)",
+        "$type": "color",
+        "hex": "#141a21"
+      },
+      "secondary": {
+        "$value": "hsl(215, 25%, 18%)",
+        "$type": "color",
+        "hex": "#222d3a"
+      },
+      "secondaryForeground": {
+        "$value": "hsl(195, 80%, 90%)",
+        "$type": "color",
+        "hex": "#c7f0fa"
+      },
+      "muted": {
+        "$value": "hsl(215, 25%, 16%)",
+        "$type": "color",
+        "hex": "#1e2833"
+      },
+      "mutedForeground": {
+        "$value": "hsl(195, 20%, 60%)",
+        "$type": "color",
+        "hex": "#85a0ab"
+      },
+      "accent": {
+        "$value": "hsl(187, 80%, 20%)",
+        "$type": "color",
+        "hex": "#0a4752"
+      },
+      "accentForeground": {
+        "$value": "hsl(187, 92%, 70%)",
+        "$type": "color",
+        "hex": "#6ee6f7"
+      },
+      "destructive": {
+        "$value": "hsl(0, 72%, 55%)",
+        "$type": "color",
+        "hex": "#e04444"
+      },
+      "destructiveForeground": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "success": {
+        "$value": "hsl(160, 84%, 40%)",
+        "$type": "color",
+        "hex": "#10bc83"
+      },
+      "successForeground": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "warning": {
+        "$value": "hsl(45, 93%, 50%)",
+        "$type": "color",
+        "hex": "#f5c20a"
+      },
+      "warningForeground": {
+        "$value": "hsl(215, 28%, 10%)",
+        "$type": "color",
+        "hex": "#141a21"
+      },
+      "border": {
+        "$value": "hsl(215, 25%, 22%)",
+        "$type": "color",
+        "hex": "#2a3746"
+      },
+      "input": {
+        "$value": "hsl(215, 25%, 20%)",
+        "$type": "color",
+        "hex": "#26323f"
+      },
+      "ring": {
+        "$value": "hsl(187, 92%, 50%)",
+        "$type": "color",
+        "hex": "#0acaef"
+      }
+    },
+    
+    "chart": {
+      "primary": {
+        "$value": "hsl(187, 92%, 50%)",
+        "$type": "color",
+        "hex": "#0acaef"
+      },
+      "success": {
+        "$value": "hsl(160, 84%, 40%)",
+        "$type": "color",
+        "hex": "#10bc83"
+      },
+      "warning": {
+        "$value": "hsl(45, 93%, 50%)",
+        "$type": "color",
+        "hex": "#f5c20a"
+      },
+      "danger": {
+        "$value": "hsl(0, 72%, 55%)",
+        "$type": "color",
+        "hex": "#e04444"
+      }
+    },
+    
+    "sidebar": {
+      "background": {
+        "$value": "hsl(215, 32%, 8%)",
+        "$type": "color",
+        "hex": "#0e151d"
+      },
+      "foreground": {
+        "$value": "hsl(195, 80%, 90%)",
+        "$type": "color",
+        "hex": "#c7f0fa"
+      },
+      "primary": {
+        "$value": "hsl(187, 92%, 55%)",
+        "$type": "color",
+        "hex": "#1fd0f2"
+      },
+      "primaryForeground": {
+        "$value": "hsl(215, 28%, 10%)",
+        "$type": "color",
+        "hex": "#141a21"
+      },
+      "accent": {
+        "$value": "hsl(215, 32%, 15%)",
+        "$type": "color",
+        "hex": "#1a2430"
+      },
+      "accentForeground": {
+        "$value": "hsl(195, 80%, 90%)",
+        "$type": "color",
+        "hex": "#c7f0fa"
+      },
+      "border": {
+        "$value": "hsl(215, 25%, 20%)",
+        "$type": "color",
+        "hex": "#26323f"
+      },
+      "ring": {
+        "$value": "hsl(187, 92%, 55%)",
+        "$type": "color",
+        "hex": "#1fd0f2"
+      }
+    }
+  },
+  
+  "light": {
+    "$description": "Light Mode - Blue themed for Gantt & Resource management",
+    
+    "color": {
+      "background": {
+        "$value": "hsl(214, 32%, 96%)",
+        "$type": "color",
+        "hex": "#f1f4f8"
+      },
+      "foreground": {
+        "$value": "hsl(222, 47%, 11%)",
+        "$type": "color",
+        "hex": "#0f172a"
+      },
+      "card": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "cardForeground": {
+        "$value": "hsl(222, 47%, 11%)",
+        "$type": "color",
+        "hex": "#0f172a"
+      },
+      "popover": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "popoverForeground": {
+        "$value": "hsl(222, 47%, 11%)",
+        "$type": "color",
+        "hex": "#0f172a"
+      },
+      "primary": {
+        "$value": "hsl(217, 91%, 50%)",
+        "$type": "color",
+        "hex": "#1d6ef5"
+      },
+      "primaryForeground": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "secondary": {
+        "$value": "hsl(214, 32%, 92%)",
+        "$type": "color",
+        "hex": "#e4eaf1"
+      },
+      "secondaryForeground": {
+        "$value": "hsl(222, 47%, 11%)",
+        "$type": "color",
+        "hex": "#0f172a"
+      },
+      "muted": {
+        "$value": "hsl(214, 32%, 94%)",
+        "$type": "color",
+        "hex": "#eaeef4"
+      },
+      "mutedForeground": {
+        "$value": "hsl(215, 16%, 47%)",
+        "$type": "color",
+        "hex": "#65758a"
+      },
+      "accent": {
+        "$value": "hsl(217, 91%, 95%)",
+        "$type": "color",
+        "hex": "#e8f0fe"
+      },
+      "accentForeground": {
+        "$value": "hsl(217, 91%, 40%)",
+        "$type": "color",
+        "hex": "#0950c3"
+      },
+      "destructive": {
+        "$value": "hsl(0, 84%, 60%)",
+        "$type": "color",
+        "hex": "#ef4444"
+      },
+      "destructiveForeground": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "success": {
+        "$value": "hsl(142, 76%, 36%)",
+        "$type": "color",
+        "hex": "#16a34a"
+      },
+      "successForeground": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "warning": {
+        "$value": "hsl(38, 92%, 50%)",
+        "$type": "color",
+        "hex": "#f59e0b"
+      },
+      "warningForeground": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "border": {
+        "$value": "hsl(214, 32%, 88%)",
+        "$type": "color",
+        "hex": "#d8e0ea"
+      },
+      "input": {
+        "$value": "hsl(214, 32%, 90%)",
+        "$type": "color",
+        "hex": "#dee5ed"
+      },
+      "ring": {
+        "$value": "hsl(217, 91%, 50%)",
+        "$type": "color",
+        "hex": "#1d6ef5"
+      }
+    },
+    
+    "chart": {
+      "primary": {
+        "$value": "hsl(217, 91%, 50%)",
+        "$type": "color",
+        "hex": "#1d6ef5"
+      },
+      "success": {
+        "$value": "hsl(142, 76%, 36%)",
+        "$type": "color",
+        "hex": "#16a34a"
+      },
+      "warning": {
+        "$value": "hsl(38, 92%, 50%)",
+        "$type": "color",
+        "hex": "#f59e0b"
+      },
+      "danger": {
+        "$value": "hsl(0, 84%, 60%)",
+        "$type": "color",
+        "hex": "#ef4444"
+      }
+    },
+    
+    "sidebar": {
+      "background": {
+        "$value": "hsl(222, 47%, 11%)",
+        "$type": "color",
+        "hex": "#0f172a"
+      },
+      "foreground": {
+        "$value": "hsl(214, 32%, 96%)",
+        "$type": "color",
+        "hex": "#f1f4f8"
+      },
+      "primary": {
+        "$value": "hsl(217, 91%, 60%)",
+        "$type": "color",
+        "hex": "#4d8ff7"
+      },
+      "primaryForeground": {
+        "$value": "hsl(0, 0%, 100%)",
+        "$type": "color",
+        "hex": "#ffffff"
+      },
+      "accent": {
+        "$value": "hsl(222, 47%, 18%)",
+        "$type": "color",
+        "hex": "#182543"
+      },
+      "accentForeground": {
+        "$value": "hsl(214, 32%, 96%)",
+        "$type": "color",
+        "hex": "#f1f4f8"
+      },
+      "border": {
+        "$value": "hsl(222, 47%, 20%)",
+        "$type": "color",
+        "hex": "#1b2a4a"
+      },
+      "ring": {
+        "$value": "hsl(217, 91%, 60%)",
+        "$type": "color",
+        "hex": "#4d8ff7"
+      }
+    }
+  },
+  
+  "global": {
+    "borderRadius": {
+      "lg": {
+        "$value": "0.5rem",
+        "$type": "dimension"
+      },
+      "md": {
+        "$value": "calc(0.5rem - 2px)",
+        "$type": "dimension"
+      },
+      "sm": {
+        "$value": "calc(0.5rem - 4px)",
+        "$type": "dimension"
+      }
+    },
+    
+    "typography": {
+      "fontFamily": {
+        "sans": {
+          "$value": "'Inter', system-ui, sans-serif",
+          "$type": "fontFamily"
+        }
+      },
+      "fontWeight": {
+        "light": { "$value": "300", "$type": "fontWeight" },
+        "regular": { "$value": "400", "$type": "fontWeight" },
+        "medium": { "$value": "500", "$type": "fontWeight" },
+        "semibold": { "$value": "600", "$type": "fontWeight" },
+        "bold": { "$value": "700", "$type": "fontWeight" },
+        "extrabold": { "$value": "800", "$type": "fontWeight" },
+        "black": { "$value": "900", "$type": "fontWeight" }
+      }
+    }
+  }
+}
