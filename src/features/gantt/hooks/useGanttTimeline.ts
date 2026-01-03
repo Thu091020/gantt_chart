@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { addDays, addMonths, startOfWeek, startOfMonth, endOfMonth, format, differenceInDays } from 'date-fns';
-import { vi } from 'date-fns/locale';
 import type { Task } from '../types/task.types';
+import { useTaskDateRange } from './useTaskDateRange';
+import { useTimelineColumns } from './useTimelineColumns';
+import { useDatePosition } from './useDatePosition';
 
 export type GanttViewMode = 'day' | 'week' | 'month' | 'quarter';
 

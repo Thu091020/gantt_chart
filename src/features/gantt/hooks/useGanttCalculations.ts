@@ -1,10 +1,11 @@
-import { useMemo, useCallback } from 'react';
-import { format } from 'date-fns';
 import type { Task } from '../types/task.types';
+import { useTaskHierarchy } from './useTaskHierarchy';
+import { useWorkingDays } from './useWorkingDays';
+import { useTaskFilters } from './useTaskFilters';
 
 /**
- * Hook chứa tất cả logic tính toán cho Gantt Chart
- * Extracted từ GanttView.tsx theo nguyên tắc: Components = UI only, Logic = Hooks
+ * Hook kết hợp tất cả calculations cho Gantt Chart
+ * Orchestrates các hooks nhỏ hơn: hierarchy, working days, filters
  */
 
 interface Holiday {
@@ -39,7 +40,14 @@ export function useGanttCalculations({
   filterAssigneeIds,
 }: UseGanttCalculationsProps) {
   
-  // ================== Task ID & WBS Mapping ==================
+  // Task hierarchy và WBS
+  const hierarchy = useTaskHierarchy(tasks, expandedTasks);
+  
+  // Working days calculations
+  const workingDays = useWorkingDays(holidays, settings);
+  
+  // Task filters
+  const filters = useTaskFilters(hierarchy.flatTasks, filterAssigneeIds);
   
   /**
    * Map task ID to sequential number (1-based)
@@ -329,27 +337,25 @@ export function useGanttCalculations({
           collect(task.id);
         }
       });
-    };
+    };From hierarchy
+    taskIdMap: hierarchy.taskIdMap,
+    taskByIdNumber: hierarchy.taskByIdNumber,
+    wbsMap: hierarchy.wbsMap,
+    taskTree: hierarchy.taskTree,
+    allFlatTasksWithLevel: hierarchy.allFlatTasksWithLevel,
+    flatTasks: hierarchy.flatTasks,
     
-    collect(parentId);
-    return descendants;
-  }, [tasks]);
-
-  return {
-    // Mappings
-    taskIdMap,
-    taskByIdNumber,
-    wbsMap,
+    // From working days
+    isHoliday: workingDays.isHoliday,
+    checkSaturdayWorkingDay: workingDays.checkSaturdayWorkingDay,
+    isNonWorkingDay: workingDays.isNonWorkingDay,
+    countWorkingDays: workingDays.countWorkingDays,
+    addWorkingDays: workingDays.addWorkingDays,
+    getNextWorkingDay: workingDays.getNextWorkingDay,
     
-    // Working days
-    isHoliday,
-    checkSaturdayWorkingDay,
-    isNonWorkingDay,
-    countWorkingDays,
-    addWorkingDays,
-    getNextWorkingDay,
-    
-    // Task hierarchy
+    // From filters
+    filteredFlatTasks: filters.filteredFlatTasks,
+    getDescendantIds: (parentId: string) => filters.getDescendantIds(parentId, tasks)y
     taskTree,
     allFlatTasksWithLevel,
     flatTasks,
