@@ -1,25 +1,32 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import {
+  Button,
+  Separator,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Calendar,
+  Checkbox,
+  Label,
+  Input,
+} from '../internal/ui';
 import { DateRangePickerPopup } from '@/components/common/DateRangePickerPopup';
-import { MilestoneDialog } from './MilestoneDialog';
-import { TaskBarLabels } from '@/hooks/useViewSettings';
-import { 
-  Plus, 
-  Trash2, 
-  Edit2, 
-  ChevronRight, 
+import { MilestoneDialog } from '../dialogs/MilestoneDialog';
+import type { TaskBarLabels } from '../../types/gantt.types';
+import {
+  Plus,
+  Trash2,
+  Edit2,
+  ChevronRight,
   ChevronLeft,
-  ArrowUp, 
-  ArrowDown, 
-  RefreshCw, 
-  Upload, 
+  ArrowUp,
+  ArrowDown,
+  RefreshCw,
+  Upload,
   Download,
   Indent,
   Outdent,
@@ -34,15 +41,15 @@ import {
   Italic,
   Users,
   Check,
-  X
+  X,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../internal/utils';
 import { format, addMonths, differenceInDays } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
 export type GanttViewMode = 'day' | 'week' | 'month';
 
-export type { TaskBarLabels } from '@/hooks/useViewSettings';
+export type { TaskBarLabels } from '../../types/gantt.types';
 
 interface FilterEmployee {
   id: string;
@@ -100,7 +107,14 @@ interface ToolbarButtonProps {
   active?: boolean;
 }
 
-function ToolbarButton({ icon, label, onClick, disabled, variant, active }: ToolbarButtonProps) {
+function ToolbarButton({
+  icon,
+  label,
+  onClick,
+  disabled,
+  variant,
+  active,
+}: ToolbarButtonProps) {
   return (
     <TooltipProvider delayDuration={300}>
       <Tooltip>
@@ -109,9 +123,10 @@ function ToolbarButton({ icon, label, onClick, disabled, variant, active }: Tool
             variant="ghost"
             size="sm"
             className={cn(
-              "h-7 w-7 p-0",
-              variant === 'destructive' && "text-destructive hover:text-destructive hover:bg-destructive/10",
-              active && "bg-secondary"
+              'h-7 w-7 p-0',
+              variant === 'destructive' &&
+                'text-destructive hover:text-destructive hover:bg-destructive/10',
+              active && 'bg-secondary'
             )}
             onClick={onClick}
             disabled={disabled}
@@ -165,32 +180,40 @@ export function GanttToolbar({
   onGoToPrevious,
   onGoToNext,
   onGoToToday,
-  onTaskBarLabelsChange
+  onTaskBarLabelsChange,
 }: GanttToolbarProps) {
   const hasSelection = selectedCount > 0;
   const hasSingleSelection = selectedCount === 1;
-  const canIndentOutdent = hasSingleSelection || (hasSelection && canMultiIndent);
+  const canIndentOutdent =
+    hasSingleSelection || (hasSelection && canMultiIndent);
   const [syncPopoverOpen, setSyncPopoverOpen] = useState(false);
   const [syncStartDate, setSyncStartDate] = useState<Date>(new Date());
-  const [syncEndDate, setSyncEndDate] = useState<Date>(addMonths(new Date(), 3));
+  const [syncEndDate, setSyncEndDate] = useState<Date>(
+    addMonths(new Date(), 3)
+  );
   const [startDatePickerOpen, setStartDatePickerOpen] = useState(false);
   const [endDatePickerOpen, setEndDatePickerOpen] = useState(false);
   const [filterPopoverOpen, setFilterPopoverOpen] = useState(false);
   const [filterSearch, setFilterSearch] = useState('');
-  
+
   // Calculate bold/italic active state
-  const isBoldActive = selectedTasksTextStyle === 'bold' || selectedTasksTextStyle === 'bold-italic';
-  const isItalicActive = selectedTasksTextStyle === 'italic' || selectedTasksTextStyle === 'bold-italic';
+  const isBoldActive =
+    selectedTasksTextStyle === 'bold' ||
+    selectedTasksTextStyle === 'bold-italic';
+  const isItalicActive =
+    selectedTasksTextStyle === 'italic' ||
+    selectedTasksTextStyle === 'bold-italic';
 
   // Filter employees by search
-  const filteredEmployees = filterEmployees.filter(emp =>
-    emp.name.toLowerCase().includes(filterSearch.toLowerCase()) ||
-    emp.code.toLowerCase().includes(filterSearch.toLowerCase())
+  const filteredEmployees = filterEmployees.filter(
+    (emp) =>
+      emp.name.toLowerCase().includes(filterSearch.toLowerCase()) ||
+      emp.code.toLowerCase().includes(filterSearch.toLowerCase())
   );
 
   const toggleFilterEmployee = (id: string) => {
     if (filterAssigneeIds.includes(id)) {
-      onFilterAssigneesChange(filterAssigneeIds.filter(i => i !== id));
+      onFilterAssigneesChange(filterAssigneeIds.filter((i) => i !== id));
     } else {
       onFilterAssigneesChange([...filterAssigneeIds, id]);
     }
@@ -252,14 +275,22 @@ export function GanttToolbar({
       />
       <ToolbarButton
         icon={<Trash2 className="w-3.5 h-3.5" />}
-        label={hasSelection && selectedCount > 1 ? `Xóa ${selectedCount} tasks` : "Xóa task (Delete)"}
+        label={
+          hasSelection && selectedCount > 1
+            ? `Xóa ${selectedCount} tasks`
+            : 'Xóa task (Delete)'
+        }
         onClick={onDeleteTask}
         disabled={!hasSelection}
         variant="destructive"
       />
       <ToolbarButton
         icon={<Copy className="w-3.5 h-3.5" />}
-        label={selectedCount > 1 ? `Copy ${selectedCount} tasks (Ctrl+D)` : "Copy task (Ctrl+D)"}
+        label={
+          selectedCount > 1
+            ? `Copy ${selectedCount} tasks (Ctrl+D)`
+            : 'Copy task (Ctrl+D)'
+        }
         onClick={onCopyTask}
         disabled={!canCopy}
       />
@@ -287,13 +318,21 @@ export function GanttToolbar({
       {/* Indent & Outdent */}
       <ToolbarButton
         icon={<Indent className="w-3.5 h-3.5" />}
-        label={selectedCount > 1 ? `Indent ${selectedCount} tasks (Tab)` : "Indent - Thành task con (Tab)"}
+        label={
+          selectedCount > 1
+            ? `Indent ${selectedCount} tasks (Tab)`
+            : 'Indent - Thành task con (Tab)'
+        }
         onClick={onIndent}
         disabled={!canIndentOutdent}
       />
       <ToolbarButton
         icon={<Outdent className="w-3.5 h-3.5" />}
-        label={selectedCount > 1 ? `Outdent ${selectedCount} tasks (Shift+Tab)` : "Outdent - Thành task cha (Shift+Tab)"}
+        label={
+          selectedCount > 1
+            ? `Outdent ${selectedCount} tasks (Shift+Tab)`
+            : 'Outdent - Thành task cha (Shift+Tab)'
+        }
         onClick={onOutdent}
         disabled={!canIndentOutdent}
       />
@@ -366,15 +405,25 @@ export function GanttToolbar({
           <div className="space-y-3">
             <div className="text-sm font-medium">Đồng bộ nguồn lực</div>
             <div className="text-xs text-muted-foreground">
-              Chọn khoảng thời gian để đồng bộ allocation từ tasks sang nguồn lực
+              Chọn khoảng thời gian để đồng bộ allocation từ tasks sang nguồn
+              lực
             </div>
-            
+
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <div className="text-xs text-muted-foreground mb-1">Từ ngày</div>
-                <Popover open={startDatePickerOpen} onOpenChange={setStartDatePickerOpen}>
+                <div className="text-xs text-muted-foreground mb-1">
+                  Từ ngày
+                </div>
+                <Popover
+                  open={startDatePickerOpen}
+                  onOpenChange={setStartDatePickerOpen}
+                >
                   <PopoverTrigger asChild>
-                    <Button variant="outline" size="sm" className="w-full justify-start text-xs h-8">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full justify-start text-xs h-8"
+                    >
                       <CalendarIcon className="w-3 h-3 mr-1" />
                       {format(syncStartDate, 'dd/MM/yyyy')}
                     </Button>
@@ -398,10 +447,19 @@ export function GanttToolbar({
                 </Popover>
               </div>
               <div>
-                <div className="text-xs text-muted-foreground mb-1">Đến ngày</div>
-                <Popover open={endDatePickerOpen} onOpenChange={setEndDatePickerOpen}>
+                <div className="text-xs text-muted-foreground mb-1">
+                  Đến ngày
+                </div>
+                <Popover
+                  open={endDatePickerOpen}
+                  onOpenChange={setEndDatePickerOpen}
+                >
                   <PopoverTrigger asChild>
-                    <Button variant="outline" size="sm" className="w-full justify-start text-xs h-8">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full justify-start text-xs h-8"
+                    >
                       <CalendarIcon className="w-3 h-3 mr-1" />
                       {format(syncEndDate, 'dd/MM/yyyy')}
                     </Button>
@@ -425,11 +483,14 @@ export function GanttToolbar({
                 </Popover>
               </div>
             </div>
-            
+
             <div className="text-xs text-muted-foreground text-center py-1 bg-secondary/30 rounded">
-              Tổng thời gian: <span className="font-medium text-foreground">{getDurationLabel()}</span>
+              Tổng thời gian:{' '}
+              <span className="font-medium text-foreground">
+                {getDurationLabel()}
+              </span>
             </div>
-            
+
             <Button size="sm" className="w-full" onClick={handleSync}>
               <RefreshCw className="w-3.5 h-3.5 mr-1" />
               Đồng bộ nguồn lực
@@ -474,44 +535,70 @@ export function GanttToolbar({
             <div className="text-sm font-medium">Hiển thị trên task bar</div>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showName" 
+                <Checkbox
+                  id="showName"
                   checked={taskBarLabels.showName}
-                  onCheckedChange={(checked) => 
-                    onTaskBarLabelsChange({ ...taskBarLabels, showName: !!checked })
+                  onCheckedChange={(checked) =>
+                    onTaskBarLabelsChange({
+                      ...taskBarLabels,
+                      showName: !!checked,
+                    })
                   }
                 />
-                <Label htmlFor="showName" className="text-xs cursor-pointer">Tên task</Label>
+                <Label htmlFor="showName" className="text-xs cursor-pointer">
+                  Tên task
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showAssignees" 
+                <Checkbox
+                  id="showAssignees"
                   checked={taskBarLabels.showAssignees}
-                  onCheckedChange={(checked) => 
-                    onTaskBarLabelsChange({ ...taskBarLabels, showAssignees: !!checked })
+                  onCheckedChange={(checked) =>
+                    onTaskBarLabelsChange({
+                      ...taskBarLabels,
+                      showAssignees: !!checked,
+                    })
                   }
                 />
-                <Label htmlFor="showAssignees" className="text-xs cursor-pointer">Người thực hiện</Label>
+                <Label
+                  htmlFor="showAssignees"
+                  className="text-xs cursor-pointer"
+                >
+                  Người thực hiện
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showDuration" 
+                <Checkbox
+                  id="showDuration"
                   checked={taskBarLabels.showDuration}
-                  onCheckedChange={(checked) => 
-                    onTaskBarLabelsChange({ ...taskBarLabels, showDuration: !!checked })
+                  onCheckedChange={(checked) =>
+                    onTaskBarLabelsChange({
+                      ...taskBarLabels,
+                      showDuration: !!checked,
+                    })
                   }
                 />
-                <Label htmlFor="showDuration" className="text-xs cursor-pointer">Duration</Label>
+                <Label
+                  htmlFor="showDuration"
+                  className="text-xs cursor-pointer"
+                >
+                  Duration
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showDates" 
+                <Checkbox
+                  id="showDates"
                   checked={taskBarLabels.showDates}
-                  onCheckedChange={(checked) => 
-                    onTaskBarLabelsChange({ ...taskBarLabels, showDates: !!checked })
+                  onCheckedChange={(checked) =>
+                    onTaskBarLabelsChange({
+                      ...taskBarLabels,
+                      showDates: !!checked,
+                    })
                   }
                 />
-                <Label htmlFor="showDates" className="text-xs cursor-pointer">Ngày bắt đầu - kết thúc</Label>
+                <Label htmlFor="showDates" className="text-xs cursor-pointer">
+                  Ngày bắt đầu - kết thúc
+                </Label>
               </div>
             </div>
           </div>
@@ -521,12 +608,13 @@ export function GanttToolbar({
       {/* Filter by assignees */}
       <Popover open={filterPopoverOpen} onOpenChange={setFilterPopoverOpen}>
         <PopoverTrigger asChild>
-          <Button 
-            variant={filterAssigneeIds.length > 0 ? "secondary" : "ghost"} 
-            size="sm" 
+          <Button
+            variant={filterAssigneeIds.length > 0 ? 'secondary' : 'ghost'}
+            size="sm"
             className={cn(
-              "h-7 px-2 gap-1 text-xs",
-              filterAssigneeIds.length > 0 && "bg-primary/10 text-primary border border-primary/30"
+              'h-7 px-2 gap-1 text-xs',
+              filterAssigneeIds.length > 0 &&
+                'bg-primary/10 text-primary border border-primary/30'
             )}
           >
             <Users className="w-3.5 h-3.5" />
@@ -547,9 +635,9 @@ export function GanttToolbar({
               className="h-7 text-xs"
             />
             {filterAssigneeIds.length > 0 && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="w-full justify-start text-xs text-muted-foreground h-7"
                 onClick={() => {
                   onFilterAssigneesChange([]);
@@ -561,7 +649,7 @@ export function GanttToolbar({
               </Button>
             )}
             <div className="space-y-0.5 max-h-[250px] overflow-y-auto scrollbar-thin">
-              {filteredEmployees.map(emp => (
+              {filteredEmployees.map((emp) => (
                 <button
                   key={emp.id}
                   onClick={() => toggleFilterEmployee(emp.id)}
@@ -572,9 +660,13 @@ export function GanttToolbar({
                 >
                   <div className="flex-1 text-left">
                     <div className="truncate font-medium">{emp.name}</div>
-                    <div className="text-muted-foreground text-[10px]">{emp.code}</div>
+                    <div className="text-muted-foreground text-[10px]">
+                      {emp.code}
+                    </div>
                   </div>
-                  {filterAssigneeIds.includes(emp.id) && <Check className="w-3 h-3 shrink-0 text-primary" />}
+                  {filterAssigneeIds.includes(emp.id) && (
+                    <Check className="w-3 h-3 shrink-0 text-primary" />
+                  )}
                 </button>
               ))}
               {filteredEmployees.length === 0 && (
@@ -596,13 +688,28 @@ export function GanttToolbar({
       {/* View controls - aligned right */}
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-0.5">
-          <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={onGoToPrevious}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0"
+            onClick={onGoToPrevious}
+          >
             <ChevronLeft className="w-3.5 h-3.5" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-6 px-2 text-[10px]" onClick={onGoToToday}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 px-2 text-[10px]"
+            onClick={onGoToToday}
+          >
             Hôm nay
           </Button>
-          <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={onGoToNext}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0"
+            onClick={onGoToNext}
+          >
             <ChevronRight className="w-3.5 h-3.5" />
           </Button>
         </div>
@@ -610,13 +717,15 @@ export function GanttToolbar({
         <Separator orientation="vertical" className="h-5" />
 
         <div className="flex gap-0.5 bg-secondary/50 p-0.5 rounded">
-          {(['day', 'week', 'month'] as GanttViewMode[]).map(m => (
+          {(['day', 'week', 'month'] as GanttViewMode[]).map((m) => (
             <button
               key={m}
               onClick={() => onViewModeChange(m)}
               className={cn(
                 'px-2 py-0.5 text-[10px] rounded transition-colors',
-                viewMode === m && !customViewMode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                viewMode === m && !customViewMode
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               {m === 'day' ? 'Ngày' : m === 'week' ? 'Tuần' : 'Tháng'}

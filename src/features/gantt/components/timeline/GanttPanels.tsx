@@ -1,13 +1,13 @@
 import { useRef, useCallback, useImperativeHandle, forwardRef } from 'react';
-import { Task } from '@/hooks/useTasks';
+import type { Task } from '../../types/gantt.types';
 import { CustomColumn } from './GanttView';
 import { GanttViewMode, TaskBarLabels } from './GanttToolbar';
 import { TaskGrid } from './TaskGrid';
 import { GanttChart, GanttChartHandle } from './GanttChart';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
-import { TaskStatus } from '@/hooks/useTaskStatuses';
-import { TaskLabel } from '@/hooks/useTaskLabels';
-import { ProjectMilestone } from '@/hooks/useProjectMilestones';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '../internal/ui';
+import type { TaskStatus } from '../../types/gantt.types';
+import type { TaskLabel } from '../../types/gantt.types';
+import type { ProjectMilestone } from '../../types/gantt.types';
 
 export interface GanttPanelsHandle {
   scrollToToday: () => void;

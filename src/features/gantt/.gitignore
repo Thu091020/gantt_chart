@@ -1,0 +1,49 @@
+# Gantt Feature - .gitignore
+
+# Compiled files
+*.js
+*.jsx
+*.d.ts
+*.map
+
+# But keep example configs
+!*.example.js
+!*.config.js
+
+# Build output
+dist/
+build/
+out/
+
+# Dependencies (if this becomes standalone package)
+node_modules/
+
+# Test coverage
+coverage/
+*.lcov
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temp files
+*.tmp
+*.temp
+.cache/
+
+# Environment
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db

@@ -1,17 +1,35 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Baseline, useBaselines, useAddBaseline, useDeleteBaseline, useRestoreBaseline } from '@/hooks/useBaselines';
+import {
+  Button,
+  Input,
+  Label,
+  Textarea,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  ScrollArea,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../internal/ui';
+import type { Baseline } from '../../types/gantt.types';
+import { useBaselinesAdapter, useAddBaseline, useDeleteBaseline, useRestoreBaseline } from '../../context/hooks';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Trash2, RotateCcw, Plus, History, Loader2, Eye } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '../internal/utils';
 
 interface BaselineDialogProps {
   open: boolean;
@@ -34,7 +52,7 @@ export function BaselineDialog({
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   
-  const { data: baselines = [], isLoading } = useBaselines(projectId);
+  const { data: baselines = [], isLoading } = useBaselinesAdapter(projectId);
   const addBaseline = useAddBaseline();
   const deleteBaseline = useDeleteBaseline();
   const restoreBaseline = useRestoreBaseline();

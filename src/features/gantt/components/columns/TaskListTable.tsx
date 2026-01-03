@@ -1,21 +1,27 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Task } from '@/hooks/useTasks';
-import { CustomColumn } from './GanttView';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { Task, TaskStatus, TaskLabel } from '../../types/gantt.types';
+import { CustomColumn } from '../../types/gantt.types';
+import {
+  Button,
+  Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Calendar,
+  Checkbox,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Separator,
+} from '../internal/ui';
+import { cn } from '../internal/utils';
 import { ChevronRight, ChevronDown, Plus, MoreHorizontal, Trash2, Edit2, Settings2, Milestone, CalendarIcon, Copy, ArrowUp, ArrowDown, ArrowUpToLine, ArrowDownToLine, Bold, Italic } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
 import { format, parseISO } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { TaskStatus } from '@/hooks/useTaskStatuses';
-import { TaskLabel } from '@/hooks/useTaskLabels';
-import { StatusSettingsDialog } from './StatusSettingsDialog';
-import { LabelSettingsDialog } from './LabelSettingsDialog';
+import { StatusSettingsDialog } from '../dialogs/StatusSettingsDialog';
+import { LabelSettingsDialog } from '../dialogs/LabelSettingsDialog';
 
 interface TaskGridProps {
   tasks: Task[];

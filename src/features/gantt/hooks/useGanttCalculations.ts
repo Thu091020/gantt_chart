@@ -337,7 +337,14 @@ export function useGanttCalculations({
           collect(task.id);
         }
       });
-    };From hierarchy
+    };
+    
+    collect(parentId);
+    return descendants;
+  }, [tasks]);
+
+  return {
+    // From hierarchy
     taskIdMap: hierarchy.taskIdMap,
     taskByIdNumber: hierarchy.taskByIdNumber,
     wbsMap: hierarchy.wbsMap,
@@ -355,13 +362,6 @@ export function useGanttCalculations({
     
     // From filters
     filteredFlatTasks: filters.filteredFlatTasks,
-    getDescendantIds: (parentId: string) => filters.getDescendantIds(parentId, tasks)y
-    taskTree,
-    allFlatTasksWithLevel,
-    flatTasks,
-    filteredFlatTasks,
-    
-    // Helpers
     getDescendantIds,
   };
 }

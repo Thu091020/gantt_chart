@@ -1,17 +1,8 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Button, Input, Label, Textarea } from '../internal/ui';
 import { Flag, Plus, Trash2, Edit2 } from 'lucide-react';
-import { 
-  useProjectMilestones, 
-  useAddProjectMilestone, 
-  useUpdateProjectMilestone, 
-  useDeleteProjectMilestone,
-  ProjectMilestone 
-} from '@/hooks/useProjectMilestones';
+import type { ProjectMilestone } from '../../types/gantt.types';
+import { useProjectMilestonesAdapter, useAddProjectMilestone, useUpdateProjectMilestone, useDeleteProjectMilestone } from '../../context/hooks';
 import { format, parseISO } from 'date-fns';
 
 interface MilestoneDialogProps {
@@ -28,7 +19,7 @@ const DEFAULT_COLORS = [
 ];
 
 export function MilestoneDialog({ projectId }: MilestoneDialogProps) {
-  const { data: milestones = [] } = useProjectMilestones(projectId);
+  const { data: milestones = [] } = useProjectMilestonesAdapter(projectId);
   const addMilestone = useAddProjectMilestone();
   const updateMilestone = useUpdateProjectMilestone();
   const deleteMilestone = useDeleteProjectMilestone();

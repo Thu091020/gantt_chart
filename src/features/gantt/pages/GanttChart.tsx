@@ -1,7 +1,7 @@
 /**
  * GanttChart Page - Temporary Wrapper
- * 
- * TODO: This is a temporary wrapper that re-exports the old GanttView component.
+ *
+ * TODO: This is a temporary wrapper that re-exports the GanttView component.
  * Gradually migrate logic to use new architecture:
  * - Replace old hooks with feature/gantt hooks
  * - Extract components to components/ folder
@@ -9,9 +9,9 @@
  * - Break down into smaller, testable components
  */
 
-// Temporary: Re-export old component
-export { GanttView as GanttChart } from '@/components/gantt/GanttView';
-export type { GanttViewMode } from '@/components/gantt/GanttView';
+// Re-export from new location
+export { GanttView as GanttChart } from './GanttView';
+export type { GanttViewMode } from '../components/toolbar/GanttToolbar';
 
 // When ready to migrate, use this structure:
 /*

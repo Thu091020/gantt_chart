@@ -1,19 +1,13 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Task } from '@/hooks/useTasks';
-import { useHolidays, Holiday } from '@/hooks/useHolidays';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Checkbox } from '@/components/ui/checkbox';
+import type { Task } from '../../types/gantt.types';
+import { useHolidaysAdapter } from '../../context/hooks';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, Button, Input, Label, Popover, PopoverContent, PopoverTrigger, Checkbox } from '../internal/ui';
 import { format, addDays, parseISO, differenceInDays, isWithinInterval, getYear, setYear, isWeekend, eachDayOfInterval } from 'date-fns';
 import { ChevronDown, Search, Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../internal/utils';
 
 // Helper function to check if a date is a holiday
-function isHoliday(date: Date, holidays: Holiday[]): boolean {
+function isHoliday(date: Date, holidays: any[]): boolean {
   const dateStr = format(date, 'yyyy-MM-dd');
   const currentYear = getYear(date);
   
@@ -77,7 +71,7 @@ export function TaskFormDialog({
   projectMembers,
   onSave
 }: TaskFormDialogProps) {
-  const { data: holidays = [] } = useHolidays();
+  const { data: holidays = [] } = useHolidaysAdapter();
   
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -123,7 +117,7 @@ export function TaskFormDialog({
     }
     setParentSearch('');
     setPredecessorSearch('');
-  }, [task, open, holidays]);
+  }, [task, open]);
 
   const handleStartDateChange = useCallback((value: string) => {
     setStartDate(value);

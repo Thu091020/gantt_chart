@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Button, Input, Label } from '../internal/ui';
+import { toast } from '../internal/utils';
+import type { TaskStatus } from '../../types/gantt.types';
+import { useTaskStatusesAdapter, useAddTaskStatus, useUpdateTaskStatus, useDeleteTaskStatus } from '../../context/hooks';
 import { Settings2, Plus, Trash2, GripVertical } from 'lucide-react';
-import { useTaskStatuses, useAddTaskStatus, useUpdateTaskStatus, useDeleteTaskStatus, TaskStatus } from '@/hooks/useTaskStatuses';
-import { toast } from 'sonner';
 
 interface StatusSettingsDialogProps {
   projectId: string;
@@ -23,7 +21,7 @@ const DEFAULT_COLORS = [
 ];
 
 export function StatusSettingsDialog({ projectId }: StatusSettingsDialogProps) {
-  const { data: statuses = [] } = useTaskStatuses(projectId);
+  const { data: statuses = [] } = useTaskStatusesAdapter(projectId);
   const addStatus = useAddTaskStatus();
   const updateStatus = useUpdateTaskStatus();
   const deleteStatus = useDeleteTaskStatus();

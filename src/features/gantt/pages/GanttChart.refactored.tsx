@@ -9,7 +9,7 @@ import { CreateTaskDialog } from '../dialogs/CreateTaskDialog';
 import { TaskDetailDialog } from '../dialogs/TaskDetailDialog';
 import { BaselineManagerDialog } from '../dialogs/BaselineManagerDialog';
 import { GanttPanels } from '../timeline/GanttPanels';
-import { cn } from '@/lib/utils';
+import { cn } from '../internal/utils';
 
 interface GanttChartProps {
   projectId: string;

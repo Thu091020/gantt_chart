@@ -1,45 +1,302 @@
 /**
- * Gantt Feature - Main Index
- * Central export point for the Gantt feature
+ * Gantt Feature - Main Export
+ * 
+ * This is the main entry point for the Gantt feature.
+ * Import everything you need from this file.
  */
 
-// Types
-export * from './types/task.types';
-export * from './types/allocation.types';
-export * from './types/gantt.types';
+// ==================== Configuration ====================
+export {
+  configureGantt,
+  getGanttConfig,
+  isGanttConfigured,
+  createDatabaseAdapter,
+  setGanttAdapterMode,
+  getGanttAdapterMode,
+  uiAdapter,
+  utilsAdapter,
+} from './adapters';
 
-// Services (for advanced usage)
-export { ganttService, isUsingMockData } from './services/factory';
+export type {
+  IGanttConfig,
+  IGanttDatabaseAdapter,
+  IGanttUIComponents,
+  IGanttUtilityFunctions,
+  IGanttAuthAdapter,
+  IEmployee,
+  IEmployeesAdapter,
+  ITaskStatus,
+  ITaskStatusAdapter,
+  ITaskLabel,
+  ITaskLabelAdapter,
+  IProjectMilestone,
+  IMilestoneAdapter,
+  IHoliday,
+  IHolidayAdapter,
+  IBaseline,
+  IBaselineAdapter,
+  ITaskBarLabels,
+  IViewSettings,
+  IViewSettingsAdapter,
+  ICollaborationAdapter,
+  GanttAdapterMode,
+} from './adapters';
 
-// Hooks - Queries
-export * from './hooks/queries/useTaskQueries';
-export * from './hooks/queries/useAllocationQueries';
-export * from './hooks/queries/useSettingQueries';
+// ==================== Types ====================
+export type {
+  Task,
+  TaskDependency,
+  TaskPriority,
+} from './types/task.types';
 
-// Hooks - Mutations
-export * from './hooks/mutations/useTaskMutations';
-export * from './hooks/mutations/useAllocationMutations';
+export type {
+  TaskAllocation,
+  AllocationWithEmployee,
+} from './types/allocation.types';
 
-// Store
-export { useGanttStore, ganttSelectors } from './store/gantt.store';
-export * from './store/gantt.selector';
+export type {
+  CustomColumn,
+  TimelineColumn,
+  TaskBarDimensions,
+} from './types/gantt.types';
 
-// Utils
-export * from './lib/date-utils';
-export * from './lib/tree-utils';
-export { 
+// ==================== Services ====================
+// Only export the factory - users shouldn't access services directly
+export {
+  ganttService,
+  isUsingMockData,
+} from './services/factory';
+
+// ==================== Store ====================
+export {
+  useGanttStore,
+  ganttSelectors,
+} from './store/gantt.store';
+
+// ==================== Hooks ====================
+
+// Query Hooks
+export {
+  useGetTasks,
+  useGetTask,
+} from './hooks/queries/useTaskQueries';
+
+export {
+  useGetAllocations,
+} from './hooks/queries/useAllocationQueries';
+
+export {
+  useGetViewSettings,
+  useGetBaselines,
+  useGetBaseline,
+  useGetProjectMilestones,
+} from './hooks/queries/useSettingQueries';
+
+// Mutation Hooks
+export {
+  useCreateTask,
+  useUpdateTask,
+  useDeleteTask,
+  useBulkUpdateTasks,
+} from './hooks/mutations/useTaskMutations';
+
+export {
+  useCreateAllocation,
+  useUpdateAllocation,
+  useDeleteAllocation,
+  useBulkSetAllocations,
+} from './hooks/mutations/useAllocationMutations';
+
+// UI Hooks
+export {
+  useGanttScroll,
+} from './hooks/ui/useGanttScroll';
+
+export {
+  useGanttZoom,
+} from './hooks/ui/useGanttZoom';
+
+export {
+  useGanttDnd,
+} from './hooks/ui/useGanttDnd';
+
+// Business Logic Hooks
+export {
+  useGanttCalculations,
+} from './hooks/useGanttCalculations';
+
+export {
+  useGanttTimeline,
+} from './hooks/useGanttTimeline';
+
+export {
+  useGanttState,
+} from './hooks/useGanttState';
+
+export {
+  useGanttHandlers,
+} from './hooks/useGanttHandlers';
+
+export {
+  useDatePosition,
+} from './hooks/useDatePosition';
+
+export {
+  useTaskDateRange,
+} from './hooks/useTaskDateRange';
+
+export {
+  useTaskFilters,
+} from './hooks/useTaskFilters';
+
+export {
+  useTaskHierarchy,
+} from './hooks/useTaskHierarchy';
+
+export {
+  useTimelineColumns,
+} from './hooks/useTimelineColumns';
+
+export {
+  useWorkingDays,
+} from './hooks/useWorkingDays';
+
+// ==================== Constants ====================
+export {
+  GANTT_VIEW_MODES,
+  GANTT_ZOOM_LEVELS,
+  DEFAULT_TASK_BAR_LABELS,
+  DEFAULT_COLUMNS,
+  GANTT_TIMELINE_DEFAULTS,
+  GANTT_COLORS,
+  DEFAULT_STATUS_COLORS,
+  DEFAULT_LABEL_COLORS,
+  API_DELAYS,
+  STORAGE_KEYS,
+  ERROR_MESSAGES,
+  SUCCESS_MESSAGES,
+} from './constants';
+
+export type {
+  GanttZoomLevel,
+} from './constants';
+
+// ==================== Utilities ====================
+
+// Date utilities
+export {
+  isHoliday,
+  checkSaturdayWorkingDay,
+  isNonWorkingDay,
+  countWorkingDays,
+  addWorkingDays,
+  getNextWorkingDay,
+} from './lib/date-utils';
+
+// Gantt utilities
+export {
+  isWeekend,
+  isWorkingDay,
+  getBusinessDaysBetween,
+} from './utils';
+
+// Tree utilities
+export {
+  buildTaskTree,
+  flattenTaskTree,
+  getAllFlatTasksWithLevel,
+  buildWbsMap,
+  getDescendantIds,
+  hasChildren,
+  getTaskSiblings,
+  getTaskAncestors,
+} from './lib/tree-utils';
+
+// Gantt utilities
+export {
   generateTimelineColumns,
   getDatePosition,
   calculateTimelineWidth,
   getDefaultTimelineEnd,
   calculateTaskBarDimensions,
 } from './lib/gantt-utils';
-export type { GanttViewMode as ViewModeType } from './lib/gantt-utils';
 
-// UI Hooks
-export * from './hooks/ui/useGanttScroll';
-export * from './hooks/ui/useGanttZoom';
-export * from './hooks/ui/useGanttDnd';
+// ==================== Components ====================
 
-// Main Page Component (temporary wrapper - will be refactored)
-export { GanttChart, type GanttViewMode } from './pages/GanttChart';
+// Main Components
+export {
+  GanttChart,
+} from './components/GanttChart';
+
+export type {
+  GanttChartHandle,
+} from './components/GanttChart';
+
+export {
+  GanttPanels,
+} from './components/GanttPanels';
+
+export type {
+  GanttPanelsHandle,
+} from './components/GanttPanels';
+
+// Toolbar
+export {
+  GanttToolbar,
+  type GanttViewMode,
+} from './components/toolbar/GanttToolbar';
+
+// Dialogs
+export {
+  TaskFormDialog,
+} from './components/dialogs/CreateTaskDialog';
+
+export {
+  BaselineDialog,
+} from './components/dialogs/BaselineManagerDialog';
+
+export {
+  MilestoneDialog,
+} from './components/dialogs/MilestoneDialog';
+
+export {
+  LabelSettingsDialog,
+} from './components/dialogs/LabelSettingsDialog';
+
+export {
+  StatusSettingsDialog,
+} from './components/dialogs/StatusSettingsDialog';
+
+// Column Components
+export {
+  TaskGrid,
+} from './components/columns/TaskGrid';
+
+export {
+  TaskGrid as TaskListTable,
+} from './components/columns/TaskListTable';
+
+// ==================== Pages ====================
+
+// Main Page Component
+export {
+  GanttView,
+  GanttViewWrapper,
+} from './pages';
+
+// ==================== Context ====================
+export {
+  GanttContext,
+  GanttProvider,
+  useGanttContext,
+  useGanttUI,
+  useGanttUtils,
+  useGanttDatabase,
+  useGanttAuth,
+} from './context';
+
+// ==================== Default Export ====================
+// For convenience, also provide a default export
+import { GanttView } from './pages/GanttView';
+
+export default GanttView;

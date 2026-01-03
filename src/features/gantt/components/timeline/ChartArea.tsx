@@ -1,9 +1,7 @@
 import { useMemo, useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react';
-import { Task } from '@/hooks/useTasks';
-import { GanttViewMode, TaskBarLabels } from './GanttToolbar';
-import { TaskLabel } from '@/hooks/useTaskLabels';
-import { ProjectMilestone } from '@/hooks/useProjectMilestones';
-import { cn } from '@/lib/utils';
+import type { Task, TaskLabel, ProjectMilestone, TaskBarLabels } from '../../types/gantt.types';
+import { GanttViewMode } from '../toolbar/GanttToolbar';
+import { cn } from '../internal/utils';
 import { format, parseISO, differenceInDays, isSameDay, isSaturday, isSunday, addDays } from 'date-fns';
 import { vi } from 'date-fns/locale';
 

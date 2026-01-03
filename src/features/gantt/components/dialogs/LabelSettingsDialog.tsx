@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Button, Input, Label } from '../internal/ui';
+import { toast } from '../internal/utils';
+import type { TaskLabel } from '../../types/gantt.types';
+import { useTaskLabelsAdapter, useAddTaskLabel, useUpdateTaskLabel, useDeleteTaskLabel } from '../../context/hooks';
 import { Settings2, Plus, Trash2, GripVertical } from 'lucide-react';
-import { useTaskLabels, useAddTaskLabel, useUpdateTaskLabel, useDeleteTaskLabel, TaskLabel } from '@/hooks/useTaskLabels';
-import { toast } from 'sonner';
 
 interface LabelSettingsDialogProps {
   projectId: string;
@@ -23,7 +21,7 @@ const DEFAULT_COLORS = [
 ];
 
 export function LabelSettingsDialog({ projectId }: LabelSettingsDialogProps) {
-  const { data: labels = [] } = useTaskLabels(projectId);
+  const { data: labels = [] } = useTaskLabelsAdapter(projectId);
   const addLabel = useAddTaskLabel();
   const updateLabel = useUpdateTaskLabel();
   const deleteLabel = useDeleteTaskLabel();
