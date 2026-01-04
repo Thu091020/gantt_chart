@@ -17,6 +17,11 @@ export {
   utilsAdapter,
 } from './adapters';
 
+export {
+  setupGanttFeature,
+  type GanttSetupOptions,
+} from './config';
+
 export type {
   IGanttConfig,
   IGanttDatabaseAdapter,

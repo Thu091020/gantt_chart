@@ -5,6 +5,42 @@
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 
+function parseUpdateTaskArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { id, projectId, data } = args[0];
+    return { taskId: id, projectId, data };
+  }
+  const [taskId, projectId, data] = args;
+  return { taskId, projectId, data };
+}
+
+function parseDeleteTaskArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { id, projectId } = args[0];
+    return { taskId: id, projectId };
+  }
+  const [taskId, projectId] = args;
+  return { taskId, projectId };
+}
+
+function parseBulkUpdateArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { projectId, updates } = args[0];
+    return { projectId, updates };
+  }
+  const [projectId, updates] = args;
+  return { projectId, updates };
+}
+
+function parseBulkAllocationsArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { projectId, allocations } = args[0];
+    return { projectId, allocations };
+  }
+  const [projectId, allocations] = args;
+  return { projectId, allocations };
+}
+
 export function createRealDatabaseAdapter(
   supabaseClient: SupabaseClient,
   projectId: string
@@ -34,7 +70,8 @@ export function createRealDatabaseAdapter(
       return data;
     },
 
-    updateTask: async (taskId: string, _projectId: string, data: any) => {
+    updateTask: async (...args: any[]) => {
+      const { taskId, data } = parseUpdateTaskArgs(...args);
       const { data: result, error } = await supabaseClient
         .from('tasks')
         .update(data)
@@ -46,13 +83,15 @@ export function createRealDatabaseAdapter(
       return result;
     },
 
-    deleteTask: async (taskId: string, _projectId: string) => {
+    deleteTask: async (...args: any[]) => {
+      const { taskId } = parseDeleteTaskArgs(...args);
       const { error } = await supabaseClient.from('tasks').delete().eq('id', taskId);
       if (error) throw error;
     },
 
-    bulkUpdateTasks: async (_projectId: string, updates: any[]) => {
-      for (const update of updates) {
+    bulkUpdateTasks: async (...args: any[]) => {
+      const { updates } = parseBulkUpdateArgs(...args);
+      for (const update of updates || []) {
         const { error } = await supabaseClient
           .from('tasks')
           .update(update.data)
@@ -72,15 +111,16 @@ export function createRealDatabaseAdapter(
       return data || [];
     },
 
-    bulkSetAllocations: async (_projectId: string, allocations: any[]) => {
+    bulkSetAllocations: async (...args: any[]) => {
+      const { allocations } = parseBulkAllocationsArgs(...args);
       // Delete existing allocations
       await supabaseClient.from('allocations').delete().eq('project_id', projectId);
 
       // Insert new allocations
-      if (allocations.length > 0) {
+      if ((allocations || []).length > 0) {
         const { error } = await supabaseClient
           .from('allocations')
-          .insert(allocations.map((a) => ({ ...a, project_id: projectId })));
+          .insert(allocations.map((a: any) => ({ ...a, project_id: projectId })));
 
         if (error) throw error;
       }

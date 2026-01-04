@@ -1,29 +1,25 @@
 /**
- * Internal Components - Direct re-exports from @/components/ui
- * 
- * Components inside the gantt feature import from here for consistency
+ * Internal Components - Scoped re-exports from the Gantt UI library
+ *
+ * Keeping imports local to the feature makes the Gantt module portable.
  */
 
-// Basic UI Components
-export { Button } from '@/components/ui/button';
-export { Input } from '@/components/ui/input';
-export { Label } from '@/components/ui/label';
-export { Checkbox } from '@/components/ui/checkbox';
-export { Separator } from '@/components/ui/separator';
-export { Textarea } from '@/components/ui/textarea';
-
-// Dialog Components
 export {
+  // Basic UI
+  Button,
+  Input,
+  Label,
+  Checkbox,
+  Separator,
+  Textarea,
+  // Dialogs
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
   DialogTrigger,
-} from '@/components/ui/dialog';
-
-// Alert Dialog Components
-export {
+  // Alert Dialogs
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -33,42 +29,28 @@ export {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-
-// Popover Components
-export {
+  // Popovers
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-
-// Select Components
-export {
+  // Select
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-
-// Calendar
-export { Calendar } from '@/components/ui/calendar';
-
-// Tooltip Components
-export {
+  // Calendar
+  Calendar,
+  // Tooltip
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-
-// ScrollArea
-export { ScrollArea } from '@/components/ui/scroll-area';
-
-// Resizable Components
-export {
+  // Scroll area
+  ScrollArea,
+  // Resizable panels
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
-} from '@/components/ui/resizable';
+} from '../../lib/ui';
 

@@ -7,21 +7,19 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { createMockDatabaseAdapter } from './mockDatabase';
 import { createRealDatabaseAdapter } from './realDatabase';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
 import {
+  Button,
+  Input,
+  Label,
+  Checkbox,
+  Separator,
+  Textarea,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -31,29 +29,25 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Calendar } from '@/components/ui/calendar';
-import {
+  Calendar,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
+  ScrollArea,
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
-} from '@/components/ui/resizable';
-import { cn } from '@/lib/utils';
+} from '../lib/ui';
+import { cn } from '../lib/utils';
 import { toast } from 'sonner';
 
 /**
@@ -64,7 +58,7 @@ import { toast } from 'sonner';
 export type GanttAdapterMode = 'mock' | 'real';
 
 // Detect if Supabase is available
-const hasSupabaseEnvVars = !!import.meta.env.VITE_SUPABASE_URL && !!import.meta.env.VITE_SUPABASE_ANON_KEY;
+const hasSupabaseEnvVars = !!import.meta.env.VITE_SUPABASE_URL && !!import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 // Store current mode (can be toggled via window.__GANTT_MODE__)
 // Default to 'mock' if Supabase is not configured, otherwise use env var or default to 'real'

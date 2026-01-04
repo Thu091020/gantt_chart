@@ -1,0 +1,149 @@
+{
+  "colors": {
+    "light": {
+      "background": "#ffffff",
+      "surfacePrimary": "#f8fafc",
+      "surfaceSecondary": "#f1f5f9",
+      "surfaceTertiary": "#e2e8f0",
+      "textPrimary": "#1e293b",
+      "textSecondary": "#64748b",
+      "textTertiary": "#94a3b8",
+      "textMuted": "#cbd5e1",
+      "borderPrimary": "#e2e8f0",
+      "borderSecondary": "#cbd5e1",
+      "borderLight": "#f1f5f9",
+      "statusSuccess": "#10b981",
+      "statusWarning": "#f59e0b",
+      "statusError": "#ef4444",
+      "statusInfo": "#3b82f6",
+      "statusTodo": "#6b7280",
+      "statusInProgress": "#06b6d4",
+      "statusDone": "#10b981",
+      "statusBlocked": "#ef4444",
+      "taskBarBackground": "#dbeafe",
+      "taskBarBorder": "#3b82f6",
+      "taskBarHover": "#bfdbfe",
+      "taskBarSelected": "#1e40af",
+      "taskBarProgress": "#3b82f6",
+      "timelineGrid": "#e2e8f0",
+      "timelineHeader": "#f1f5f9",
+      "timelineToday": "#fef08a",
+      "timelineTodayMarker": "#ef4444",
+      "nonWorkingDay": "#f1f5f9",
+      "holiday": "#fed7aa",
+      "weekend": "#f3f4f6",
+      "dependencyLine": "#8b5cf6",
+      "dependencyLineHover": "#7c3aed",
+      "milestoneDiamond": "#ec4899",
+      "milestoneBackground": "#fce7f3",
+      "selectionBackground": "#dbeafe",
+      "selectionBorder": "#3b82f6",
+      "focusRing": "#3b82f6",
+      "allocationManual": "#fbbf24",
+      "allocationAuto": "#86efac",
+      "allocationOverload": "#fca5a5",
+      "textBold": "#1e293b",
+      "textItalic": "#475569",
+      "scrollBar": "#cbd5e1",
+      "scrollBarHover": "#94a3b8",
+      "resizeHandle": "#3b82f6"
+    },
+    "dark": {
+      "background": "#0f172a",
+      "surfacePrimary": "#1e293b",
+      "surfaceSecondary": "#334155",
+      "surfaceTertiary": "#475569",
+      "textPrimary": "#f1f5f9",
+      "textSecondary": "#cbd5e1",
+      "textTertiary": "#94a3b8",
+      "textMuted": "#64748b",
+      "borderPrimary": "#334155",
+      "borderSecondary": "#475569",
+      "borderLight": "#1e293b",
+      "statusSuccess": "#34d399",
+      "statusWarning": "#fbbf24",
+      "statusError": "#f87171",
+      "statusInfo": "#60a5fa",
+      "statusTodo": "#9ca3af",
+      "statusInProgress": "#22d3ee",
+      "statusDone": "#34d399",
+      "statusBlocked": "#f87171",
+      "taskBarBackground": "#1e3a8a",
+      "taskBarBorder": "#60a5fa",
+      "taskBarHover": "#3b82f6",
+      "taskBarSelected": "#93c5fd",
+      "taskBarProgress": "#60a5fa",
+      "timelineGrid": "#334155",
+      "timelineHeader": "#1e293b",
+      "timelineToday": "#713f12",
+      "timelineTodayMarker": "#f87171",
+      "nonWorkingDay": "#1e293b",
+      "holiday": "#92400e",
+      "weekend": "#0f172a",
+      "dependencyLine": "#a78bfa",
+      "dependencyLineHover": "#c4b5fd",
+      "milestoneDiamond": "#f472b6",
+      "milestoneBackground": "#500724",
+      "selectionBackground": "#1e3a8a",
+      "selectionBorder": "#60a5fa",
+      "focusRing": "#60a5fa",
+      "allocationManual": "#d97706",
+      "allocationAuto": "#4ade80",
+      "allocationOverload": "#fb7185",
+      "textBold": "#f1f5f9",
+      "textItalic": "#cbd5e1",
+      "scrollBar": "#475569",
+      "scrollBarHover": "#64748b",
+      "resizeHandle": "#60a5fa"
+    }
+  },
+  "status": {
+    "light": {
+      "todo": {
+        "bg": "#fef3c7",
+        "text": "#92400e",
+        "border": "#fbbf24"
+      },
+      "inProgress": {
+        "bg": "#cffafe",
+        "text": "#164e63",
+        "border": "#22d3ee"
+      },
+      "done": {
+        "bg": "#dcfce7",
+        "text": "#14532d",
+        "border": "#86efac"
+      },
+      "blocked": {
+        "bg": "#fee2e2",
+        "text": "#7c2d12",
+        "border": "#fca5a5"
+      }
+    },
+    "dark": {
+      "todo": {
+        "bg": "#713f12",
+        "text": "#fbbf24",
+        "border": "#d97706"
+      },
+      "inProgress": {
+        "bg": "#164e63",
+        "text": "#22d3ee",
+        "border": "#06b6d4"
+      },
+      "done": {
+        "bg": "#14532d",
+        "text": "#86efac",
+        "border": "#10b981"
+      },
+      "blocked": {
+        "bg": "#7c2d12",
+        "text": "#fca5a5",
+        "border": "#dc2626"
+      }
+    }
+  },
+  "description": "Gantt Chart Design Tokens - Completely self-contained color definitions",
+  "lastUpdated": "2026-01-04",
+  "version": "1.0.0"
+}

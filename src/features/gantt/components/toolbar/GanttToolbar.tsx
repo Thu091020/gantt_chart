@@ -14,7 +14,7 @@ import {
   Label,
   Input,
 } from '../internal/ui';
-import { DateRangePickerPopup } from '@/components/common/DateRangePickerPopup';
+import { DateRangePickerPopup } from '../common/DateRangePickerPopup';
 import { MilestoneDialog } from '../dialogs/MilestoneDialog';
 import type { TaskBarLabels } from '../../types/gantt.types';
 import {

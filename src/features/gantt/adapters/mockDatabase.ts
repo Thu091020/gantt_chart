@@ -39,6 +39,42 @@ let mockTasks = [
 let mockAllocations: any[] = [];
 let taskIdCounter = 2;
 
+function parseUpdateTaskArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { id, projectId, data } = args[0];
+    return { taskId: id, projectId, data };
+  }
+  const [taskId, projectId, data] = args;
+  return { taskId, projectId, data };
+}
+
+function parseDeleteTaskArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { id, projectId } = args[0];
+    return { taskId: id, projectId };
+  }
+  const [taskId, projectId] = args;
+  return { taskId, projectId };
+}
+
+function parseBulkUpdateArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { projectId, updates } = args[0];
+    return { projectId, updates };
+  }
+  const [projectId, updates] = args;
+  return { projectId, updates };
+}
+
+function parseBulkAllocationsArgs(...args: any[]) {
+  if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+    const { projectId, allocations } = args[0];
+    return { projectId, allocations };
+  }
+  const [projectId, allocations] = args;
+  return { projectId, allocations };
+}
+
 export function createMockDatabaseAdapter(
   supabaseClient: SupabaseClient
 ): Record<string, any> {
@@ -63,7 +99,8 @@ export function createMockDatabaseAdapter(
       return newTask;
     },
 
-    updateTask: async (taskId: string, projectId: string, data: any) => {
+    updateTask: async (...args: any[]) => {
+      const { taskId, projectId, data } = parseUpdateTaskArgs(...args);
       const task = mockTasks.find((t) => t.id === taskId && t.project_id === projectId);
       if (!task) throw new Error('Task not found');
       Object.assign(task, data, { updated_at: new Date().toISOString() });
@@ -71,12 +108,14 @@ export function createMockDatabaseAdapter(
       return task;
     },
 
-    deleteTask: async (taskId: string, projectId: string) => {
+    deleteTask: async (...args: any[]) => {
+      const { taskId, projectId } = parseDeleteTaskArgs(...args);
       mockTasks = mockTasks.filter((t) => !(t.id === taskId && t.project_id === projectId));
       console.log('Mock: Task deleted', taskId);
     },
 
-    bulkUpdateTasks: async (projectId: string, updates: any[]) => {
+    bulkUpdateTasks: async (...args: any[]) => {
+      const { projectId, updates } = parseBulkUpdateArgs(...args);
       updates.forEach((update) => {
         const task = mockTasks.find((t) => t.id === update.id && t.project_id === projectId);
         if (task) {
@@ -91,9 +130,10 @@ export function createMockDatabaseAdapter(
       return mockAllocations.filter((a) => a.project_id === projectId);
     },
 
-    bulkSetAllocations: async (projectId: string, allocations: any[]) => {
+    bulkSetAllocations: async (...args: any[]) => {
+      const { projectId, allocations } = parseBulkAllocationsArgs(...args);
       mockAllocations = mockAllocations.filter((a) => a.project_id !== projectId);
-      allocations.forEach((alloc) => {
+      (allocations || []).forEach((alloc) => {
         mockAllocations.push({
           ...alloc,
           project_id: projectId,

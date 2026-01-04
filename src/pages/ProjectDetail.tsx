@@ -21,14 +21,8 @@ import { useViewSettings, useSaveViewSettings } from '@/hooks/useViewSettings';
 import { useUsers } from '@/hooks/useUsers';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { DateRangePickerPopup } from '@/components/common/DateRangePickerPopup';
-import {
-  GanttViewWrapper,
-  configureGantt,
-  getGanttConfig,
-  createDatabaseAdapter,
-  uiAdapter,
-  utilsAdapter,
-} from '@/features/gantt';
+import { GanttViewWrapper, type GanttAdapterMode } from '@/features/gantt';
+import { setupGanttFeature } from '@/features/gantt/config';
 import { useSupabaseClient } from '@/integrations/supabase/hooks';
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect as useGanttEffect } from 'react';
@@ -191,15 +185,10 @@ export default function ProjectDetail() {
   useEffect(() => {
     if (!id) return;
 
-    // Configure Gantt with proper adapters
-    configureGantt({
-      // Database adapter - uses mock or real depending on mode
-      database: createDatabaseAdapter(supabaseClient, id),
-
-      // UI adapter - shadcn/ui components
-      ui: uiAdapter,
-
-      // Auth adapter - current user
+    setupGanttFeature({
+      projectId: id,
+      supabaseClient,
+      mode: import.meta.env.VITE_GANTT_MODE as GanttAdapterMode | undefined,
       auth: {
         user: auth.user
           ? {
@@ -208,15 +197,11 @@ export default function ProjectDetail() {
               name: auth.user.user_metadata?.full_name || auth.user.email,
             }
           : null,
-        isLoading: false,
+        isLoading: auth.isLoading,
       },
-
-      // Utilities
-      utils: utilsAdapter,
-
-      // Optional: data adapters can be added here for employees, holidays, etc.
+      useCollaboration: true,
     });
-  }, [id, supabaseClient, auth]); // Run when these change
+  }, [id, supabaseClient, auth.user, auth.isLoading]); // Run when these change
 
   // Load saved settings on mount
   useEffect(() => {
@@ -1371,7 +1356,7 @@ export default function ProjectDetail() {
                   'bg-card rounded-lg border border-border overflow-hidden',
                   isFullscreen
                     ? 'h-[calc(100vh-100px)]'
-                    : 'h-[calc(100vh-240px)]'
+                    : 'h-[calc(100vh-200px)]'
                 )}
               >
                 <GanttViewWrapper

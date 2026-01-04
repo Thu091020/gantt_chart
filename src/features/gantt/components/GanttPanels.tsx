@@ -136,13 +136,14 @@ export const GanttPanels = forwardRef<GanttPanelsHandle, GanttPanelsProps>(
     }, []);
 
     return (
-      <ResizablePanelGroup direction="horizontal" className="flex-1 min-h-0">
-        <ResizablePanel
-          defaultSize={40}
-          minSize={20}
-          maxSize={60}
-          className="min-h-0"
-        >
+      <div className="flex-1 w-full h-full flex flex-col overflow-hidden">
+        <ResizablePanelGroup direction="horizontal" className="flex-1 w-full">
+          <ResizablePanel
+            defaultSize={40}
+            minSize={20}
+            maxSize={60}
+            className="min-h-0"
+          >
           {/* Task Grid (Left panel) */}
           <TaskGrid
             tasks={flatTasks}
@@ -199,6 +200,7 @@ export const GanttPanels = forwardRef<GanttPanelsHandle, GanttPanelsProps>(
           />
         </ResizablePanel>
       </ResizablePanelGroup>
+      </div>
     );
   }
 );

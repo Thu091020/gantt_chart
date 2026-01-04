@@ -24,7 +24,7 @@ import {
 } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Eye, ArrowLeft, RotateCcw, Loader2 } from 'lucide-react';
-import { CollaborationOverlay } from '@/components/collaboration/CollaborationOverlay';
+import { CollaborationOverlay } from '../components/collaboration';
 import { useGanttDatabase, useGanttAuth } from '../context/GanttContext';
 import {
   useTasksAdapter as useTasks,
@@ -1392,61 +1392,62 @@ export function GanttView({
 
   const handleUpdateTaskField = useCallback(
     async (taskId: string, field: string, value: any) => {
-      const task = tasks.find((t) => t.id === taskId);
-      if (!task) return;
+      try {
+        const task = tasks.find((t) => t.id === taskId);
+        if (!task) return;
 
-      const updateData: Partial<Task> = { [field]: value };
-      let dateDelta = 0;
-      const oldStartDate = task.start_date;
-      const oldEndDate = task.end_date;
-      let newEndDateForDependents: string | null = null;
+        const updateData: Partial<Task> = { [field]: value };
+        let dateDelta = 0;
+        const oldStartDate = task.start_date;
+        const oldEndDate = task.end_date;
+        let newEndDateForDependents: string | null = null;
 
-      // Auto-calculate end_date if start_date or duration changes (using working days)
-      if (field === 'start_date' && value && task.duration) {
-        const startDateObj = parseISO(value);
-        const endDateObj = addWorkingDays(startDateObj, task.duration);
-        updateData.end_date = format(endDateObj, 'yyyy-MM-dd');
-        newEndDateForDependents = updateData.end_date;
+        // Auto-calculate end_date if start_date or duration changes (using working days)
+        if (field === 'start_date' && value && task.duration) {
+          const startDateObj = parseISO(value);
+          const endDateObj = addWorkingDays(startDateObj, task.duration);
+          updateData.end_date = format(endDateObj, 'yyyy-MM-dd');
+          newEndDateForDependents = updateData.end_date;
 
-        // Calculate delta for child updates
-        if (oldStartDate) {
-          dateDelta = differenceInDays(startDateObj, parseISO(oldStartDate));
-        }
-      } else if (field === 'duration' && task.start_date) {
-        const startDateObj = parseISO(task.start_date);
-        const endDateObj = addWorkingDays(startDateObj, value);
-        updateData.end_date = format(endDateObj, 'yyyy-MM-dd');
-        newEndDateForDependents = updateData.end_date;
-      } else if (field === 'end_date' && value && task.start_date) {
-        // Recalculate duration based on working days
-        const startDateObj = parseISO(task.start_date);
-        const endDateObj = parseISO(value);
-        updateData.duration = countWorkingDays(startDateObj, endDateObj);
-        newEndDateForDependents = value;
-      }
-
-      // Auto-update start_date based on predecessors
-      if (
-        field === 'predecessors' &&
-        Array.isArray(value) &&
-        value.length > 0
-      ) {
-        // Find the latest end_date among predecessors
-        let latestEndDate: Date | null = null;
-        value.forEach((predId) => {
-          const predTask = tasks.find((t) => t.id === predId);
-          if (predTask?.end_date) {
-            const predEndDate = parseISO(predTask.end_date);
-            if (!latestEndDate || predEndDate > latestEndDate) {
-              latestEndDate = predEndDate;
-            }
+          // Calculate delta for child updates
+          if (oldStartDate) {
+            dateDelta = differenceInDays(startDateObj, parseISO(oldStartDate));
           }
-        });
+        } else if (field === 'duration' && task.start_date) {
+          const startDateObj = parseISO(task.start_date);
+          const endDateObj = addWorkingDays(startDateObj, value);
+          updateData.end_date = format(endDateObj, 'yyyy-MM-dd');
+          newEndDateForDependents = updateData.end_date;
+        } else if (field === 'end_date' && value && task.start_date) {
+          // Recalculate duration based on working days
+          const startDateObj = parseISO(task.start_date);
+          const endDateObj = parseISO(value);
+          updateData.duration = countWorkingDays(startDateObj, endDateObj);
+          newEndDateForDependents = value;
+        }
 
-        if (latestEndDate) {
-          // Set start_date to next working day after predecessor's end_date
-          const newStartDate = getNextWorkingDay(latestEndDate);
-          updateData.start_date = format(newStartDate, 'yyyy-MM-dd');
+        // Auto-update start_date based on predecessors
+        if (
+          field === 'predecessors' &&
+          Array.isArray(value) &&
+          value.length > 0
+        ) {
+          // Find the latest end_date among predecessors
+          let latestEndDate: Date | null = null;
+          value.forEach((predId) => {
+            const predTask = tasks.find((t) => t.id === predId);
+            if (predTask?.end_date) {
+              const predEndDate = parseISO(predTask.end_date);
+              if (!latestEndDate || predEndDate > latestEndDate) {
+                latestEndDate = predEndDate;
+              }
+            }
+          });
+
+          if (latestEndDate) {
+            // Set start_date to next working day after predecessor's end_date
+            const newStartDate = getNextWorkingDay(latestEndDate);
+            updateData.start_date = format(newStartDate, 'yyyy-MM-dd');
 
           // Also update end_date based on duration
           if (task.duration) {
@@ -1482,6 +1483,10 @@ export function GanttView({
       ) {
         await updateParentTaskDates(updatedTask);
       }
+    } catch (error: any) {
+      console.error('[Gantt] Error updating task field:', error);
+      toast.error(`Lỗi cập nhật: ${error?.message || 'Vui lòng thử lại'}`);
+    }
     },
     [
       tasks,
@@ -2727,7 +2732,7 @@ export function GanttView({
 
   return (
     <CollaborationOverlay channelId={collaborationChannelId} showCursors={true}>
-      <div className="absolute bottom-[50px] top-0 left-0 right-0">
+      <div className="w-full h-full flex flex-col">
         {/* Hidden file input for CSV import */}
         <input
           ref={fileInputRef}

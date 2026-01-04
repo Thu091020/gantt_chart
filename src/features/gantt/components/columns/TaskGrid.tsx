@@ -378,46 +378,48 @@ export function TaskGrid({
         ) || taskStatuses.find((s) => s.name === 'To Do');
 
       return (
-        <Select
-          value={(task as any).status || 'todo'}
-          onValueChange={(value) => onUpdateField(task.id, 'status', value)}
-          onOpenChange={() => onSelectTask(task.id)}
-        >
-          <SelectTrigger
-            className="h-5 w-full text-[11px] px-1 border-0 bg-transparent hover:bg-secondary/50"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelectTask(task.id);
-            }}
+        <div className="relative z-40 w-full">
+          <Select
+            value={(task as any).status || 'todo'}
+            onValueChange={(value) => onUpdateField(task.id, 'status', value)}
+            onOpenChange={() => onSelectTask(task.id)}
           >
-            <div className="flex items-center gap-1 truncate">
-              <div
-                className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: currentStatus?.color || '#6B7280' }}
-              />
-              <span className="truncate">
-                {currentStatus?.name || (task as any).status || 'To Do'}
-              </span>
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            {taskStatuses.map((status) => (
-              <SelectItem
-                key={status.id}
-                value={status.name.toLowerCase().replace(/\s+/g, '_')}
-                className="text-xs"
-              >
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: status.color }}
-                  />
-                  {status.name}
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+            <SelectTrigger
+              className="h-5 w-full text-[11px] px-1 border-0 bg-transparent hover:bg-secondary/50"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelectTask(task.id);
+              }}
+            >
+              <div className="flex items-center gap-1 truncate">
+                <div
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ backgroundColor: currentStatus?.color || '#6B7280' }}
+                />
+                <span className="truncate">
+                  {currentStatus?.name || (task as any).status || 'To Do'}
+                </span>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {taskStatuses.map((status) => (
+                <SelectItem
+                  key={status.id}
+                  value={status.name.toLowerCase().replace(/\s+/g, '_')}
+                  className="text-xs"
+                >
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: status.color }}
+                    />
+                    {status.name}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       );
     }
 
@@ -428,48 +430,50 @@ export function TaskGrid({
         taskLabels.find((l) => l.is_default);
 
       return (
-        <Select
-          value={task.label_id || 'default'}
-          onValueChange={(value) =>
-            onUpdateField(
-              task.id,
-              'label_id',
-              value === 'default' ? null : value
-            )
-          }
-          onOpenChange={() => onSelectTask(task.id)}
-        >
-          <SelectTrigger
-            className="h-5 w-full text-[11px] px-1 border-0 bg-transparent hover:bg-secondary/50"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelectTask(task.id);
-            }}
+        <div className="relative z-40 w-full">
+          <Select
+            value={task.label_id || 'default'}
+            onValueChange={(value) =>
+              onUpdateField(
+                task.id,
+                'label_id',
+                value === 'default' ? null : value
+              )
+            }
+            onOpenChange={() => onSelectTask(task.id)}
           >
-            <div className="flex items-center gap-1 truncate">
-              <div
-                className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: currentLabel?.color || '#3b82f6' }}
-              />
-              <span className="truncate">
-                {currentLabel?.name || 'Default'}
-              </span>
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            {taskLabels.map((label) => (
-              <SelectItem key={label.id} value={label.id} className="text-xs">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: label.color }}
-                  />
-                  {label.name}
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+            <SelectTrigger
+              className="h-5 w-full text-[11px] px-1 border-0 bg-transparent hover:bg-secondary/50"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelectTask(task.id);
+              }}
+            >
+              <div className="flex items-center gap-1 truncate">
+                <div
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ backgroundColor: currentLabel?.color || '#3b82f6' }}
+                />
+                <span className="truncate">
+                  {currentLabel?.name || 'Default'}
+                </span>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {taskLabels.map((label) => (
+                <SelectItem key={label.id} value={label.id} className="text-xs">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: label.color }}
+                    />
+                    {label.name}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       );
     }
 
