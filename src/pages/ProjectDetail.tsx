@@ -21,7 +21,8 @@ import { useViewSettings, useSaveViewSettings } from '@/hooks/useViewSettings';
 import { useUsers } from '@/hooks/useUsers';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { DateRangePickerPopup } from '@/components/common/DateRangePickerPopup';
-import { GanttViewWrapper, type GanttAdapterMode } from '@/features/gantt';
+import { GanttViewWrapper } from '@/features/gantt/pages/GanttViewWrapper';
+import { type GanttAdapterMode } from '@/features/gantt/config';
 import { setupGanttFeature } from '@/features/gantt/config';
 import { useSupabaseClient } from '@/integrations/supabase/hooks';
 import { useAuth } from '@/hooks/useAuth';
@@ -1356,7 +1357,7 @@ export default function ProjectDetail() {
                   'bg-card rounded-lg border border-border overflow-hidden',
                   isFullscreen
                     ? 'h-[calc(100vh-100px)]'
-                    : 'h-[calc(100vh-200px)]'
+                    : 'h-[calc(100vh-240px)]'
                 )}
               >
                 <GanttViewWrapper

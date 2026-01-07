@@ -8,12 +8,12 @@
  */
 
 // Factory
-export { getServiceFactory } from './factory';
+export { createGanttServices } from './factory';
 
 // API Services
-export { taskService } from './api/task.service';
-export { allocationService } from './api/allocation.service';
-export { settingsService } from './api/settings.service';
+export type { TaskService } from './api-supabase/task.service';
+export type { AllocationService } from './api-supabase/allocation.service';
+export type { SettingsService } from './api-supabase/settings.service';
 
 // Mock Services
 export { taskMockService, allocationMockService } from './mocks';

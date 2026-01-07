@@ -3,25 +3,26 @@ import { GanttProvider } from '../context/GanttContext';
 import { GanttView } from './GanttView';
 
 interface GanttViewWrapperProps {
-  projectId: string;
-  projectMembers: { id: string; name: string }[];
-  holidays: {
-    id: string;
+  projectId: string;  // dự án id
+  projectMembers: { id: string; name: string }[];  // thành viên thuộc dự án 
+  holidays: {  // cấu hình ngày nghỉ
+    id: string;  
     date: string;
     end_date: string | null;
     name: string;
     is_recurring: boolean;
   }[];
-  settings: any;
+  settings: any;  // cấu hình cài đặt
 }
 
-/**
- * GanttViewWrapper - Wraps GanttView with GanttProvider
- * This ensures all child components have access to the adapter context
- */
+/*
+* Đay là wrapper function to bọc chứa toàn bộ gantt 
+*
+**/
 export function GanttViewWrapper(props: GanttViewWrapperProps) {
   return (
-    <GanttProvider>
+    <GanttProvider> 
+      {/* Higher order component */}
       <GanttView {...props} />
     </GanttProvider>
   );

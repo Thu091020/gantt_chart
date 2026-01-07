@@ -9,7 +9,7 @@
  */
 
 export { useGanttStore } from './gantt.store';
-export { selectTasks, selectUI, selectView, selectSelectedTask } from './gantt.selector';
+
 
 // Slices
 export * from './slices/task-slice';

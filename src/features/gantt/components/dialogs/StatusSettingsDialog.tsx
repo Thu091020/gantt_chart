@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Button, Input, Label } from '../internal/ui';
 import { toast } from '../internal/utils';
-import type { TaskStatus } from '../../types/gantt.types';
+import type { TaskStatus } from '../../types/task.types';
 import { useTaskStatusesAdapter, useAddTaskStatus, useUpdateTaskStatus, useDeleteTaskStatus } from '../../context/hooks';
 import { Settings2, Plus, Trash2, GripVertical } from 'lucide-react';
 
@@ -50,7 +50,9 @@ export function StatusSettingsDialog({ projectId }: StatusSettingsDialogProps) {
       setNewStatusName('');
       setNewStatusColor(DEFAULT_COLORS[0]);
       toast.success('Đã thêm trạng thái mới');
+      // Note: refetch is handled automatically by React Query invalidateQueries
     } catch (error) {
+      console.error('Error adding status:', error);
       toast.error('Lỗi khi thêm trạng thái');
     }
   };
@@ -62,13 +64,12 @@ export function StatusSettingsDialog({ projectId }: StatusSettingsDialogProps) {
     }
     
     try {
-      await updateStatus.mutateAsync({
-        id,
-        data: { name: editName.trim(), color: editColor }
-      });
+      await updateStatus.mutateAsync({ statusId: id, updates: { name: editName.trim(), color: editColor } });
       setEditingId(null);
       toast.success('Đã cập nhật trạng thái');
+      // Note: refetch is handled automatically by React Query invalidateQueries
     } catch (error) {
+      console.error('Error updating status:', error);
       toast.error('Lỗi khi cập nhật trạng thái');
     }
   };
@@ -80,7 +81,7 @@ export function StatusSettingsDialog({ projectId }: StatusSettingsDialogProps) {
     }
     
     try {
-      await deleteStatus.mutateAsync(status.id);
+      await deleteStatus.mutateAsync({ statusId: status.id, projectId });
       toast.success('Đã xóa trạng thái');
     } catch (error) {
       toast.error('Lỗi khi xóa trạng thái');

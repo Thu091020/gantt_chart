@@ -3,7 +3,7 @@
  * Realistic project task structure for testing
  */
 
-import type { Task, TaskLabel, TaskStatus } from '../../types/task.types';
+import type { Task, TaskLabel, TaskStatus } from '../../../types/task.types';
 
 export const mockTaskLabels: TaskLabel[] = [
   {

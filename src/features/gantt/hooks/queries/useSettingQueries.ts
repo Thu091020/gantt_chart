@@ -4,7 +4,7 @@
  */
 
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { ganttService } from '../../services/factory';
+import { useGanttServices } from '../../context/GanttContext';
 import type { ViewSettings, Baseline, ProjectMilestone } from '../../types/gantt.types';
 
 /**
@@ -23,9 +23,10 @@ export const settingsKeys = {
 export function useGetViewSettings(
   options?: Omit<UseQueryOptions<ViewSettings, Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: settingsKeys.viewSettings,
-    queryFn: () => ganttService.settings.getViewSettings(),
+    queryFn: () => services.settings.getViewSettings(),
     staleTime: 1000 * 60, // 1 minute
     ...options,
   });
@@ -38,9 +39,10 @@ export function useGetBaselines(
   projectId: string,
   options?: Omit<UseQueryOptions<Baseline[], Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: settingsKeys.baselines(projectId),
-    queryFn: () => ganttService.settings.getBaselines(projectId),
+    queryFn: () => services.settings.getBaselines(projectId),
     enabled: !!projectId,
     ...options,
   });
@@ -53,9 +55,10 @@ export function useGetBaseline(
   baselineId: string,
   options?: Omit<UseQueryOptions<Baseline, Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: settingsKeys.baseline(baselineId),
-    queryFn: () => ganttService.settings.getBaselineById(baselineId),
+    queryFn: () => services.settings.getBaselineById(baselineId),
     enabled: !!baselineId,
     ...options,
   });
@@ -68,9 +71,10 @@ export function useGetProjectMilestones(
   projectId: string,
   options?: Omit<UseQueryOptions<ProjectMilestone[], Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: settingsKeys.milestones(projectId),
-    queryFn: () => ganttService.settings.getProjectMilestones(projectId),
+    queryFn: () => services.settings.getProjectMilestones(projectId),
     enabled: !!projectId,
     staleTime: 1000 * 60, // 1 minute
     ...options,

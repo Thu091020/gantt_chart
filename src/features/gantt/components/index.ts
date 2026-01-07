@@ -1,12 +1,12 @@
 // Main components
-export { GanttChart, type GanttChartHandle } from './GanttChart';
+export { GanttChart, type GanttChartHandle } from './gantt-chart/GanttChart';
 export { GanttPanels, type GanttPanelsHandle } from './GanttPanels';
 
 // Toolbar
 export { GanttToolbar, type GanttViewMode } from './toolbar/GanttToolbar';
 
 // Columns
-export { TaskGrid } from './columns/TaskGrid';
+export { TaskGrid } from './task-grid';
 
 // Dialogs
 export { TaskFormDialog } from './dialogs/CreateTaskDialog';

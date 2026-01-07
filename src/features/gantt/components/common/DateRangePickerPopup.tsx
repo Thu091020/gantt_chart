@@ -9,12 +9,14 @@ import { Calendar } from '../../lib/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../lib/ui/popover';
 import { cn } from '../../lib/utils';
 
+
+// Modal custom chọn khoảng thời gian
 interface DateRangePickerPopupProps {
-  startDate: Date;
-  endDate: Date;
-  onRangeChange: (start: Date, end: Date) => void;
-  buttonClassName?: string;
-  align?: 'start' | 'center' | 'end';
+  startDate: Date;  // ngày bắt đầu
+  endDate: Date;  // ngày kết thúc
+  onRangeChange: (start: Date, end: Date) => void;  // chỉnh sửa khoảng thời gian
+  buttonClassName?: string;  // class name của button
+  align?: 'start' | 'center' | 'end';  // vị trí của popup
 }
 
 export function DateRangePickerPopup({ 

@@ -4,7 +4,7 @@
  */
 
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { ganttService } from '../../services/factory';
+import { useGanttServices } from '../../context/GanttContext';
 import type { Task, TaskLabel, TaskStatus } from '../../types/task.types';
 
 /**
@@ -27,9 +27,10 @@ export function useGetTasks(
   projectId: string,
   options?: Omit<UseQueryOptions<Task[], Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: taskKeys.list(projectId),
-    queryFn: () => ganttService.task.getTasks(projectId),
+    queryFn: () => services.task.getTasks(projectId),
     enabled: !!projectId,
     staleTime: 1000 * 30, // 30 seconds
     ...options,
@@ -43,9 +44,10 @@ export function useGetTask(
   taskId: string,
   options?: Omit<UseQueryOptions<Task, Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: taskKeys.detail(taskId),
-    queryFn: () => ganttService.task.getTaskById(taskId),
+    queryFn: () => services.task.getTaskById(taskId),
     enabled: !!taskId,
     ...options,
   });
@@ -58,9 +60,10 @@ export function useGetTaskLabels(
   projectId?: string,
   options?: Omit<UseQueryOptions<TaskLabel[], Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: taskKeys.labels(projectId),
-    queryFn: () => ganttService.task.getTaskLabels(projectId),
+    queryFn: () => services.task.getTaskLabels(projectId),
     staleTime: 1000 * 60 * 5, // 5 minutes (labels don't change often)
     ...options,
   });
@@ -73,9 +76,10 @@ export function useGetTaskStatuses(
   projectId?: string,
   options?: Omit<UseQueryOptions<TaskStatus[], Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: taskKeys.statuses(projectId),
-    queryFn: () => ganttService.task.getTaskStatuses(projectId),
+    queryFn: () => services.task.getTaskStatuses(projectId),
     staleTime: 1000 * 60 * 5, // 5 minutes
     ...options,
   });

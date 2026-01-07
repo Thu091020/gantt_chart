@@ -4,7 +4,7 @@
  */
 
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { ganttService } from '../../services/factory';
+import { useGanttServices } from '../../context/GanttContext';
 import type { Allocation, AllocationQueryParams } from '../../types/allocation.types';
 
 /**
@@ -28,10 +28,11 @@ export function useGetAllocations(
   // Normalize params (backward compatibility)
   const normalizedParams: AllocationQueryParams = 
     typeof params === 'string' ? { projectId: params } : params || {};
+  const services = useGanttServices();
 
   return useQuery({
     queryKey: allocationKeys.list(normalizedParams),
-    queryFn: () => ganttService.allocation.getAllocations(normalizedParams),
+    queryFn: () => services.allocation.getAllocations(normalizedParams),
     staleTime: 0, // Always fresh
     refetchOnMount: true,
     refetchOnWindowFocus: true,
@@ -46,9 +47,10 @@ export function useGetAllocation(
   allocationId: string,
   options?: Omit<UseQueryOptions<Allocation, Error>, 'queryKey' | 'queryFn'>
 ) {
+  const services = useGanttServices();
   return useQuery({
     queryKey: allocationKeys.detail(allocationId),
-    queryFn: () => ganttService.allocation.getAllocationById(allocationId),
+    queryFn: () => services.allocation.getAllocationById(allocationId),
     enabled: !!allocationId,
     ...options,
   });

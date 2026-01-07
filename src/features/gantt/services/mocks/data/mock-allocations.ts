@@ -2,7 +2,7 @@
  * Mock Allocation Data
  */
 
-import type { Allocation } from '../../types/allocation.types';
+import type { Allocation } from '../../../types/allocation.types';
 
 export const mockAllocations: Allocation[] = [
   // Employee 1 allocations for January 2026

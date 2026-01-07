@@ -20,10 +20,7 @@ import {
   utilsAdapter,
   type GanttAdapterMode,
 } from './adapters/config';
-import {
-  CollaborationOverlay,
-  CollaborationAvatars,
-} from './components/collaboration';
+
 
 export interface GanttSetupOptions {
   projectId: string;
@@ -74,9 +71,7 @@ export function setupGanttFeature(options: GanttSetupOptions) {
       isLoading: auth?.isLoading ?? false,
     },
     viewSettings: viewSettingsAdapter,
-    collaboration: useCollaboration
-      ? { CollaborationOverlay, CollaborationAvatars }
-      : undefined,
+    collaboration: undefined,
   };
 
   configureGantt(config);

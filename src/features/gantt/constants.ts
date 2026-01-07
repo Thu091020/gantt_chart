@@ -32,6 +32,13 @@ export const DEFAULT_TASK_BAR_LABELS = {
   showDates: false,
 } as const;
 
+export interface CustomColumn {
+  id: string;
+  name: string;
+  width: number;
+  visible: boolean;
+  fixed?: boolean;
+}
 export const DEFAULT_COLUMNS = [
   { id: 'task_id', name: 'ID', width: 40, visible: true, fixed: true },
   { id: 'wbs', name: 'WBS', width: 65, visible: true, fixed: true },

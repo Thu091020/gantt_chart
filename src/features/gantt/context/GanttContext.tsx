@@ -3,9 +3,10 @@
  * Provides configured adapters to all child components
  */
 
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, ReactNode, useMemo } from 'react';
 import { getGanttConfig } from '../adapters';
 import type { IGanttConfig } from '../adapters';
+import { createGanttServices } from '../services/factory';
 
 const GanttContext = createContext<IGanttConfig | null>(null);
 
@@ -15,9 +16,12 @@ export interface GanttProviderProps {
 
 /**
  * Provider that makes Gantt config available to all child components
+ * Components bọc này sẽ có thể truy cập vào cấu hình gantt thông qua context
  * This is automatically used by GanttView, you don't need to use it manually
+ * Đây là component được sử dụng tự động bởi GanttView, bạn không cần sử dụng thủ công
  */
 export function GanttProvider({ children }: GanttProviderProps) {
+  // component này bọc lấy cấu hình gantt từ adapter
   const config = getGanttConfig();
   
   return (
@@ -74,6 +78,15 @@ export function useGanttDatabase() {
 export function useGanttAuth() {
   const { auth } = useGanttContext();
   return auth;
+}
+
+/**
+ * Hook to access Gantt services (task, allocation, settings)
+ * Services are created with Supabase client from context
+ */
+export function useGanttServices() {
+  const { database } = useGanttContext();
+  return useMemo(() => createGanttServices(database.supabaseClient), [database.supabaseClient]);
 }
 
 export { GanttContext };

@@ -1,6 +1,6 @@
 /**
  * Allocation Mock Service
- * Returns fake data for development/testing
+ * Returns fake data for development/testing with store persistence
  */
 
 import type { IAllocationService } from '../interfaces/allocation.interface';
@@ -11,13 +11,11 @@ import type {
   UpdateAllocationInput,
   BulkAllocationInput
 } from '../../types/allocation.types';
-import { mockAllocations } from './data/mock-allocations';
+import { allocationStore } from './store/allocationStore';
 
 const MOCK_DELAY = 300;
 
 export class AllocationMockService implements IAllocationService {
-  private allocations: Allocation[] = [...mockAllocations];
-
   private delay(): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
   }
@@ -25,7 +23,7 @@ export class AllocationMockService implements IAllocationService {
   async getAllocations(params?: AllocationQueryParams): Promise<Allocation[]> {
     await this.delay();
     
-    let result = [...this.allocations];
+    let result = [...allocationStore.allocations];
 
     if (params?.projectId) {
       result = result.filter(a => a.project_id === params.projectId);
@@ -46,7 +44,7 @@ export class AllocationMockService implements IAllocationService {
   async getAllocationById(allocationId: string): Promise<Allocation> {
     await this.delay();
     
-    const allocation = this.allocations.find(a => a.id === allocationId);
+    const allocation = allocationStore.allocations.find(a => a.id === allocationId);
     if (!allocation) throw new Error(`Allocation ${allocationId} not found`);
     return allocation;
   }
@@ -55,7 +53,7 @@ export class AllocationMockService implements IAllocationService {
     await this.delay();
     
     const newAllocation: Allocation = {
-      id: `alloc-${Date.now()}`,
+      id: `alloc-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       employee_id: input.employee_id,
       project_id: input.project_id,
       date: input.date,
@@ -64,28 +62,22 @@ export class AllocationMockService implements IAllocationService {
       created_at: new Date().toISOString()
     };
 
-    this.allocations.push(newAllocation);
+    allocationStore.addAllocation(newAllocation);
     return newAllocation;
   }
 
   async updateAllocation(allocationId: string, updates: UpdateAllocationInput): Promise<Allocation> {
     await this.delay();
     
-    const index = this.allocations.findIndex(a => a.id === allocationId);
-    if (index === -1) throw new Error(`Allocation ${allocationId} not found`);
-
-    this.allocations[index] = {
-      ...this.allocations[index],
-      ...updates
-    };
-
-    return this.allocations[index];
+    allocationStore.updateAllocation(allocationId, updates);
+    const updated = allocationStore.allocations.find(a => a.id === allocationId);
+    if (!updated) throw new Error(`Allocation ${allocationId} not found`);
+    return updated;
   }
 
   async deleteAllocation(allocationId: string): Promise<void> {
     await this.delay();
-    
-    this.allocations = this.allocations.filter(a => a.id !== allocationId);
+    allocationStore.deleteAllocation(allocationId);
   }
 
   async bulkSetAllocations(allocations: BulkAllocationInput[]): Promise<Allocation[]> {
@@ -98,25 +90,24 @@ export class AllocationMockService implements IAllocationService {
       
       if (effort === 0) {
         // Delete if exists
-        this.allocations = this.allocations.filter(
-          a => !(a.employee_id === employeeId && a.project_id === projectId && a.date === date)
+        const existing = allocationStore.allocations.find(
+          a => a.employee_id === employeeId && a.project_id === projectId && a.date === date
         );
+        if (existing) {
+          allocationStore.deleteAllocation(existing.id);
+        }
       } else {
         // Upsert
-        const existingIndex = this.allocations.findIndex(
+        const existing = allocationStore.allocations.find(
           a => a.employee_id === employeeId && a.project_id === projectId && a.date === date
         );
 
-        if (existingIndex >= 0) {
-          this.allocations[existingIndex] = {
-            ...this.allocations[existingIndex],
-            effort,
-            source
-          };
-          results.push(this.allocations[existingIndex]);
+        if (existing) {
+          allocationStore.updateAllocation(existing.id, { effort, source });
+          results.push(allocationStore.allocations.find(a => a.id === existing.id)!);
         } else {
           const newAlloc: Allocation = {
-            id: `alloc-${Date.now()}-${Math.random()}`,
+            id: `alloc-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
             employee_id: employeeId,
             project_id: projectId,
             date,
@@ -124,7 +115,7 @@ export class AllocationMockService implements IAllocationService {
             source,
             created_at: new Date().toISOString()
           };
-          this.allocations.push(newAlloc);
+          allocationStore.addAllocation(newAlloc);
           results.push(newAlloc);
         }
       }
@@ -136,19 +127,18 @@ export class AllocationMockService implements IAllocationService {
   async upsertAllocation(input: CreateAllocationInput): Promise<Allocation> {
     await this.delay();
     
-    const existingIndex = this.allocations.findIndex(
+    const existing = allocationStore.allocations.find(
       a => a.employee_id === input.employee_id && 
            a.project_id === input.project_id && 
            a.date === input.date
     );
 
-    if (existingIndex >= 0) {
-      this.allocations[existingIndex] = {
-        ...this.allocations[existingIndex],
+    if (existing) {
+      allocationStore.updateAllocation(existing.id, {
         effort: input.effort,
         source: input.source || 'manual'
-      };
-      return this.allocations[existingIndex];
+      });
+      return allocationStore.allocations.find(a => a.id === existing.id)!;
     } else {
       return this.createAllocation(input);
     }

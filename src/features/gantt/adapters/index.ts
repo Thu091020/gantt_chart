@@ -10,6 +10,60 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 // ==================== Database Adapter ====================
 export interface IGanttDatabaseAdapter {
   supabaseClient: SupabaseClient;
+  
+  // Tasks
+  getTasks?: (projectId: string) => Promise<any[]>;
+  addTask?: (taskData: any) => Promise<any>;
+  updateTask?: (...args: any[]) => Promise<any>;
+  deleteTask?: (...args: any[]) => Promise<void>;
+  bulkUpdateTasks?: (...args: any[]) => Promise<any[]>;
+  
+  // Allocations
+  getAllocations?: (projectId: string) => Promise<any[]>;
+  bulkSetAllocations?: (...args: any[]) => Promise<any[]>;
+  
+  // Employees
+  getEmployees?: () => Promise<any[]>;
+  
+  // Task Statuses
+  getTaskStatuses?: (projectId: string) => Promise<any[]>;
+  addTaskStatus?: (status: any) => Promise<any>;
+  updateTaskStatus?: (id: string, updates: any) => Promise<any>;
+  deleteTaskStatus?: (id: string) => Promise<void>;
+  
+  // Task Labels
+  getTaskLabels?: (projectId: string) => Promise<any[]>;
+  addTaskLabel?: (label: any) => Promise<any>;
+  updateTaskLabel?: (id: string, updates: any) => Promise<any>;
+  deleteTaskLabel?: (id: string) => Promise<void>;
+  
+  // Project Milestones
+  getProjectMilestones?: (projectId: string) => Promise<any[]>;
+  addProjectMilestone?: (milestone: any) => Promise<any>;
+  updateProjectMilestone?: (id: string, updates: any) => Promise<any>;
+  deleteProjectMilestone?: (id: string) => Promise<void>;
+  
+  // Holidays
+  getHolidays?: () => Promise<any[]>;
+  
+  // Baselines
+  getBaselines?: (projectId: string) => Promise<any[]>;
+  addBaseline?: (baseline: any) => Promise<any>;
+  deleteBaseline?: (id: string) => Promise<void>;
+  restoreBaseline?: (id: string) => Promise<void>;
+  
+  // View Settings
+  getViewSettings?: () => { data: any; isLoading: boolean };
+  saveViewSettings?: (settings: any) => Promise<void>;
+  
+  // Project
+  updateProject?: (projectId: string, updates: any) => Promise<any>;
+  
+  // Auth (optional, may be in separate adapter)
+  auth?: {
+    user?: any;
+    profile?: any;
+  };
 }
 
 // ==================== UI Component Adapters ====================

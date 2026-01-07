@@ -1,10 +1,19 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import type { Task } from '../../types/gantt.types';
+
 import { useHolidaysAdapter } from '../../context/hooks';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, Button, Input, Label, Popover, PopoverContent, PopoverTrigger, Checkbox } from '../internal/ui';
 import { format, addDays, parseISO, differenceInDays, isWithinInterval, getYear, setYear, isWeekend, eachDayOfInterval } from 'date-fns';
 import { ChevronDown, Search, Check } from 'lucide-react';
 import { cn } from '../internal/utils';
+import { Task } from '../../types/task.types';
+
+interface Holiday {
+  id: string;
+  date: string;
+  end_date: string | null;
+  name: string;
+  is_recurring: boolean;
+}
 
 // Helper function to check if a date is a holiday
 function isHoliday(date: Date, holidays: any[]): boolean {

@@ -21,3 +21,11 @@ export {
   useGetBaseline,
   useGetProjectMilestones,
 } from './useSettingQueries';
+
+export {
+  useGetEmployees,
+} from './useEmployeeQueries';
+
+export {
+  useGetHolidays,
+} from './useHolidayQueries';

@@ -4,6 +4,6 @@
  * Zustand store slices for different aspects of state
  */
 
-export { taskSlice } from './task-slice';
-export { uiSlice } from './ui-slice';
-export { viewSlice } from './view-slice';
+export type { TaskSlice } from './task-slice';
+export type { UISlice } from './ui-slice';
+export type { ViewSlice } from './view-slice';

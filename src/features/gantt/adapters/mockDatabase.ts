@@ -1,12 +1,12 @@
 /**
  * Mock Database Adapter
- * Provides mock data for testing Gantt feature without API calls
- * Switch between mock and real adapters by changing the import in configureGantt
+ * Returns fake data for development/testing
+ * Sử dụng services với store để đảm bảo data persistence
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { createGanttServices } from '../services/factory';
 
-// Mock data storage - in production this would be API calls
 let mockTasks = [
   {
     id: '1',
@@ -78,68 +78,56 @@ function parseBulkAllocationsArgs(...args: any[]) {
 export function createMockDatabaseAdapter(
   supabaseClient: SupabaseClient
 ): Record<string, any> {
+  // Tạo services để sử dụng store
+  const services = createGanttServices(supabaseClient);
   return {
     supabaseClient,
 
     // ==================== Tasks ====================
+    // Sử dụng service để đảm bảo data được lưu vào store
     getTasks: async (projectId: string) => {
-      return mockTasks.filter((t) => t.project_id === projectId);
+      return services.task.getTasks(projectId);
     },
 
     addTask: async (taskData: any) => {
-      const newTask = {
-        id: String(++taskIdCounter),
-        project_id: taskData.project_id,
-        ...taskData,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      mockTasks.push(newTask);
-      console.log('Mock: Task created', newTask);
-      return newTask;
+      return services.task.createTask(taskData);
     },
 
     updateTask: async (...args: any[]) => {
       const { taskId, projectId, data } = parseUpdateTaskArgs(...args);
-      const task = mockTasks.find((t) => t.id === taskId && t.project_id === projectId);
-      if (!task) throw new Error('Task not found');
-      Object.assign(task, data, { updated_at: new Date().toISOString() });
-      console.log('Mock: Task updated', task);
-      return task;
+      return services.task.updateTask(taskId, data);
     },
 
     deleteTask: async (...args: any[]) => {
       const { taskId, projectId } = parseDeleteTaskArgs(...args);
-      mockTasks = mockTasks.filter((t) => !(t.id === taskId && t.project_id === projectId));
-      console.log('Mock: Task deleted', taskId);
+      return services.task.deleteTask(taskId);
     },
 
     bulkUpdateTasks: async (...args: any[]) => {
       const { projectId, updates } = parseBulkUpdateArgs(...args);
-      updates.forEach((update) => {
-        const task = mockTasks.find((t) => t.id === update.id && t.project_id === projectId);
-        if (task) {
-          Object.assign(task, update.data, { updated_at: new Date().toISOString() });
-        }
-      });
-      console.log('Mock: Tasks bulk updated');
+      const bulkUpdates = updates.map(update => ({
+        id: update.id,
+        updates: update.data
+      }));
+      return services.task.bulkUpdateTasks(bulkUpdates);
     },
 
     // ==================== Allocations ====================
+    // Sử dụng service để đảm bảo data được lưu vào store
     getAllocations: async (projectId: string) => {
-      return mockAllocations.filter((a) => a.project_id === projectId);
+      return services.allocation.getAllocations({ projectId });
     },
 
     bulkSetAllocations: async (...args: any[]) => {
       const { projectId, allocations } = parseBulkAllocationsArgs(...args);
-      mockAllocations = mockAllocations.filter((a) => a.project_id !== projectId);
-      (allocations || []).forEach((alloc) => {
-        mockAllocations.push({
-          ...alloc,
-          project_id: projectId,
-        });
-      });
-      console.log('Mock: Allocations bulk set');
+      const bulkAllocations = (allocations || []).map(alloc => ({
+        employeeId: alloc.employee_id,
+        projectId: projectId,
+        date: alloc.date,
+        effort: alloc.effort,
+        source: alloc.source || 'manual'
+      }));
+      return services.allocation.bulkSetAllocations(bulkAllocations);
     },
 
     // ==================== Employees ====================
@@ -152,120 +140,93 @@ export function createMockDatabaseAdapter(
     },
 
     // ==================== Task Statuses ====================
+    // Sử dụng service để đảm bảo data được lưu vào store
     getTaskStatuses: async (projectId: string) => {
-      return [
-        { id: '1', name: 'Not Started', color: '#gray', order: 0, project_id: projectId },
-        { id: '2', name: 'In Progress', color: '#blue', order: 1, project_id: projectId },
-        { id: '3', name: 'Completed', color: '#green', order: 2, project_id: projectId },
-      ];
+      return services.task.getTaskStatuses(projectId);
     },
 
     addTaskStatus: async (status: any) => {
-      const newStatus = { id: String(Math.random()), ...status };
-      console.log('Mock: Task status created', newStatus);
-      return newStatus;
+      return services.task.createTaskStatus(status);
     },
 
     updateTaskStatus: async (id: string, updates: any) => {
-      console.log('Mock: Task status updated', id, updates);
+      return services.task.updateTaskStatus(id, updates);
     },
 
     deleteTaskStatus: async (id: string) => {
-      console.log('Mock: Task status deleted', id);
+      return services.task.deleteTaskStatus(id);
     },
 
     // ==================== Task Labels ====================
+    // Sử dụng service để đảm bảo data được lưu vào store
     getTaskLabels: async (projectId: string) => {
-      return [
-        { id: '1', name: 'Bug', color: '#red', project_id: projectId },
-        { id: '2', name: 'Feature', color: '#green', project_id: projectId },
-        { id: '3', name: 'Documentation', color: '#blue', project_id: projectId },
-      ];
+      return services.task.getTaskLabels(projectId);
     },
 
     addTaskLabel: async (label: any) => {
-      const newLabel = { id: String(Math.random()), ...label };
-      console.log('Mock: Task label created', newLabel);
-      return newLabel;
+      return services.task.createTaskLabel(label);
     },
 
     updateTaskLabel: async (id: string, updates: any) => {
-      console.log('Mock: Task label updated', id, updates);
+      return services.task.updateTaskLabel(id, updates);
     },
 
     deleteTaskLabel: async (id: string) => {
-      console.log('Mock: Task label deleted', id);
+      return services.task.deleteTaskLabel(id);
     },
 
     // ==================== Project Milestones ====================
+    // Sử dụng service để đảm bảo data được lưu vào store
     getProjectMilestones: async (projectId: string) => {
-      return [
-        {
-          id: '1',
-          project_id: projectId,
-          name: 'Phase 1 Complete',
-          date: '2024-03-01',
-          color: '#blue',
-        },
-        {
-          id: '2',
-          project_id: projectId,
-          name: 'Phase 2 Complete',
-          date: '2024-06-01',
-          color: '#green',
-        },
-      ];
+      return services.settings.getProjectMilestones(projectId);
     },
 
     addProjectMilestone: async (milestone: any) => {
-      const newMilestone = { id: String(Math.random()), ...milestone };
-      console.log('Mock: Milestone created', newMilestone);
-      return newMilestone;
+      return services.settings.createProjectMilestone(milestone);
     },
 
     updateProjectMilestone: async (id: string, updates: any) => {
-      console.log('Mock: Milestone updated', id, updates);
+      return services.settings.updateProjectMilestone(id, updates);
     },
 
     deleteProjectMilestone: async (id: string) => {
-      console.log('Mock: Milestone deleted', id);
+      return services.settings.deleteProjectMilestone(id);
     },
 
     // ==================== Baselines ====================
+    // Sử dụng service để đảm bảo data được lưu vào store
     getBaselines: async (projectId: string) => {
-      return [
-        {
-          id: '1',
-          project_id: projectId,
-          name: 'Baseline 1',
-          created_at: new Date().toISOString(),
-          created_by: 'user1',
-        },
-      ];
+      return services.settings.getBaselines(projectId);
     },
 
     addBaseline: async (baseline: any) => {
-      const newBaseline = {
-        id: String(Math.random()),
-        ...baseline,
-        created_at: new Date().toISOString(),
-      };
-      console.log('Mock: Baseline created', newBaseline);
-      return newBaseline;
+      return services.settings.createBaseline(baseline);
     },
 
     deleteBaseline: async (id: string) => {
-      console.log('Mock: Baseline deleted', id);
+      return services.settings.deleteBaseline(id);
     },
 
     restoreBaseline: async (id: string) => {
-      console.log('Mock: Baseline restored', id);
+      // restoreBaseline cần projectId, nhưng adapter chỉ nhận id
+      // Cần parse từ baseline hoặc truyền thêm projectId
+      const baselines = await services.settings.getBaselines('');
+      const baseline = baselines.find(b => b.id === id);
+      if (baseline) {
+        return services.settings.restoreBaseline(id, baseline.project_id);
+      }
+      throw new Error(`Baseline ${id} not found`);
     },
 
     // ==================== View Settings ====================
+    // Sử dụng service để đảm bảo data được lưu vào store
+    getViewSettings: async () => {
+      const settings = await services.settings.getViewSettings();
+      return { data: settings, isLoading: false };
+    },
+
     saveViewSettings: async (settings: any) => {
-      console.log('Mock: View settings saved', settings);
-      return settings;
+      await services.settings.saveViewSettings(settings);
     },
 
     // ==================== Project ====================

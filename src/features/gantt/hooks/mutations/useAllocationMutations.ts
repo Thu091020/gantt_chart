@@ -5,7 +5,7 @@
 
 import { useMutation, useQueryClient, UseMutationOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { ganttService } from '../../services/factory';
+import { useGanttServices } from '../../context/GanttContext';
 import { allocationKeys } from '../queries/useAllocationQueries';
 import type { 
   Allocation,
@@ -21,9 +21,10 @@ export function useCreateAllocation(
   options?: UseMutationOptions<Allocation, Error, CreateAllocationInput>
 ) {
   const queryClient = useQueryClient();
+  const services = useGanttServices();
 
   return useMutation({
-    mutationFn: (input) => ganttService.allocation.createAllocation(input),
+    mutationFn: (input) => services.allocation.createAllocation(input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: allocationKeys.all });
     },
@@ -38,10 +39,11 @@ export function useUpdateAllocation(
   options?: UseMutationOptions<Allocation, Error, { allocationId: string; updates: UpdateAllocationInput }>
 ) {
   const queryClient = useQueryClient();
+  const services = useGanttServices();
 
   return useMutation({
     mutationFn: ({ allocationId, updates }) => 
-      ganttService.allocation.updateAllocation(allocationId, updates),
+      services.allocation.updateAllocation(allocationId, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: allocationKeys.all });
     },
@@ -56,9 +58,10 @@ export function useDeleteAllocation(
   options?: UseMutationOptions<void, Error, string>
 ) {
   const queryClient = useQueryClient();
+  const services = useGanttServices();
 
   return useMutation({
-    mutationFn: (allocationId) => ganttService.allocation.deleteAllocation(allocationId),
+    mutationFn: (allocationId) => services.allocation.deleteAllocation(allocationId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: allocationKeys.all });
     },
@@ -80,10 +83,11 @@ export function useSetAllocation(
   }>
 ) {
   const queryClient = useQueryClient();
+  const services = useGanttServices();
 
   return useMutation({
     mutationFn: ({ employeeId, projectId, date, effort, source = 'manual' }) => 
-      ganttService.allocation.upsertAllocation({
+      services.allocation.upsertAllocation({
         employee_id: employeeId,
         project_id: projectId,
         date,
@@ -107,9 +111,10 @@ export function useBulkSetAllocations(
   options?: UseMutationOptions<Allocation[], Error, BulkAllocationInput[]>
 ) {
   const queryClient = useQueryClient();
+  const services = useGanttServices();
 
   return useMutation({
-    mutationFn: (allocations) => ganttService.allocation.bulkSetAllocations(allocations),
+    mutationFn: (allocations) => services.allocation.bulkSetAllocations(allocations),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: allocationKeys.all });
       toast.success('Đã cập nhật allocations');
@@ -128,9 +133,10 @@ export function useUpsertAllocation(
   options?: UseMutationOptions<Allocation, Error, CreateAllocationInput>
 ) {
   const queryClient = useQueryClient();
+  const services = useGanttServices();
 
   return useMutation({
-    mutationFn: (input) => ganttService.allocation.upsertAllocation(input),
+    mutationFn: (input) => services.allocation.upsertAllocation(input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: allocationKeys.all });
     },

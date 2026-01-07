@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Button, Input, Label } from '../internal/ui';
 import { toast } from '../internal/utils';
-import type { TaskLabel } from '../../types/gantt.types';
+import type { TaskLabel } from '../../types/task.types';
 import { useTaskLabelsAdapter, useAddTaskLabel, useUpdateTaskLabel, useDeleteTaskLabel } from '../../context/hooks';
 import { Settings2, Plus, Trash2, GripVertical } from 'lucide-react';
 
@@ -63,8 +63,8 @@ export function LabelSettingsDialog({ projectId }: LabelSettingsDialogProps) {
     
     try {
       await updateLabel.mutateAsync({
-        id,
-        data: { name: editName.trim(), color: editColor }
+        labelId: id,
+        updates: { name: editName.trim(), color: editColor }
       });
       setEditingId(null);
       toast.success('Đã cập nhật label');
@@ -80,7 +80,7 @@ export function LabelSettingsDialog({ projectId }: LabelSettingsDialogProps) {
     }
     
     try {
-      await deleteLabel.mutateAsync(label.id);
+      await deleteLabel.mutateAsync({ labelId: label.id, projectId });
       toast.success('Đã xóa label');
     } catch (error) {
       toast.error('Lỗi khi xóa label');
