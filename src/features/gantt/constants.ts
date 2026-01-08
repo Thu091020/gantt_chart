@@ -13,6 +13,8 @@ export const GANTT_VIEW_MODES = {
   CUSTOM: 'custom',
 } as const;
 
+
+
 export type GanttViewMode = typeof GANTT_VIEW_MODES[keyof typeof GANTT_VIEW_MODES];
 
 // Zoom Levels
@@ -46,12 +48,15 @@ export const DEFAULT_COLUMNS = [
   { id: 'status', name: 'Trạng thái', width: 95, visible: true },
   { id: 'start_date', name: 'Bắt đầu', width: 85, visible: true },
   { id: 'end_date', name: 'Kết thúc', width: 85, visible: true },
-  { id: 'duration', name: 'Duration', width: 65, visible: true },
-  { id: 'predecessors', name: 'Predec', width: 60, visible: true },
-  { id: 'assignees', name: 'Assign', width: 100, visible: true },
-  { id: 'effort', name: 'Effort', width: 55, visible: true },
+  { id: 'duration', name: 'TG thi công', width: 100, visible: true },
+  { id: 'predecessors', name: 'Predecessors', width: 80, visible: true },
+  { id: 'assignees', name: 'Nhà thầu TC', width: 100, visible: true },
+  // Không có cột effect thay bằng đường gantt check box hiển thị đường gantt hay không
+  // { id: 'effort', name: 'Effort', width: 55, visible: true },
+  { id: 'show_gantt', name: 'Hiển thị đường gantt', width: 120, visible: true },
   { id: 'progress', name: 'Tiến độ', width: 70, visible: true },
-  { id: 'label', name: 'Label', width: 85, visible: true },
+  // sẽ không hiển thị label
+  // { id: 'label', name: 'Label', width: 85, visible: true },
 ] as const;
 
 // Timeline

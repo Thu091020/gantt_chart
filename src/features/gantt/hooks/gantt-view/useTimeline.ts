@@ -1,7 +1,7 @@
 import { useMemo, useCallback } from 'react';
 import { format, addMonths, addDays, eachDayOfInterval, startOfMonth, isSaturday } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { GanttViewMode } from '../../components/toolbar/GanttToolbar';
+import { GanttViewMode } from '../../constants';
 import { useWorkCalendar } from '../useWorkCalendar';
 import { isHoliday as checkIsHoliday, checkSaturdayWorkingDay as checkSaturdayWorkingDayUtil } from '../../utils/dateUtils';
 

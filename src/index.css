@@ -116,23 +116,23 @@
   }
 
   /* Style native date input calendar icon for dark theme */
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  input[type='date']::-webkit-calendar-picker-indicator {
     filter: invert(1);
     opacity: 0.7;
     cursor: pointer;
   }
 
-  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  input[type='date']::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
   }
 
   /* Light theme - keep default dark icon */
-  .light input[type="date"]::-webkit-calendar-picker-indicator {
+  .light input[type='date']::-webkit-calendar-picker-indicator {
     filter: none;
     opacity: 0.7;
   }
 
-  .light input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  .light input[type='date']::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
   }
 }
@@ -244,7 +244,8 @@
 
   /* Tech glow utilities */
   .glow-cyan {
-    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3), 0 0 40px rgba(34, 211, 238, 0.1);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3),
+      0 0 40px rgba(34, 211, 238, 0.1);
   }
 
   .text-glow {

@@ -27,6 +27,7 @@ import {
   Bold,
   Italic,
 } from 'lucide-react'; // Icons
+import { GanttViewMode } from '../../constants';
 
 // --- IMPORT CÁC COMPONENT ĐÃ TÁCH ---
 // (Hãy đảm bảo đường dẫn import đúng với nơi bạn lưu file)
@@ -35,8 +36,8 @@ import { ToolbarSync } from './ToolbarSync';
 import { ToolbarViewSettings } from './ToolbarViewSettings';
 import { ToolbarViewControls } from './ToolbarViewControls';
 
-// --- TYPES ---
-export type GanttViewMode = 'day' | 'week' | 'month';
+// // --- TYPES ---
+// export type GanttViewMode = 'day' | 'week' | 'month';
 
 export type { TaskBarLabels } from '../../types/gantt.types';
 import type { TaskBarLabels } from '../../types/gantt.types';
@@ -297,7 +298,7 @@ export function GanttToolbar(props: GanttToolbarProps) {
       {/* --- NHÓM 6: CÔNG CỤ NÂNG CAO (Sync, Baseline, Settings, Filter) --- */}
       <div className="flex items-center gap-0.5">
         {/* Component Đồng bộ */}
-        <ToolbarSync onSync={(s, e) => onSyncAllocations(s, e)} />
+        {/* <ToolbarSync onSync={(s, e) => onSyncAllocations(s, e)} /> */}
 
         {/* Nút Baseline */}
         <TooltipProvider delayDuration={300}>
@@ -329,11 +330,11 @@ export function GanttToolbar(props: GanttToolbarProps) {
         />
 
         {/* Component Lọc nhân viên */}
-        {/* <ToolbarFilter
+        <ToolbarFilter
           employees={filterEmployees}
           assigneeIds={filterAssigneeIds}
           onChange={onFilterAssigneesChange}
-        /> */}
+        />
       </div>
 
       {/* --- SPACER --- */}

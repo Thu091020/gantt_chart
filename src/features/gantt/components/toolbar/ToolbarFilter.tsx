@@ -45,14 +45,14 @@ export function ToolbarFilter({ employees, assigneeIds, onChange }: ToolbarFilte
           )}
         >
           <Users className="w-3.5 h-3.5" />
-          {assigneeIds.length === 0 ? 'Lọc người' : <>{assigneeIds.length} người</>}
+          {assigneeIds.length === 0 ? 'Lọc nhà thầu' : <>{assigneeIds.length} nhà thầu</>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[280px] p-2" align="start">
         <div className="space-y-2">
-          <div className="text-sm font-medium">Lọc theo người thực hiện</div>
+          <div className="text-sm font-medium">Lọc theo nhà thầu thực hiện</div>
           <Input
-            placeholder="Tìm nhân sự..."
+            placeholder="Tìm nhà thầu..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="h-7 text-xs"

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { GanttPanels, GanttPanelsHandle } from '../components/GanttPanels';
-import { GanttToolbar, GanttViewMode } from '../components/toolbar/GanttToolbar';
+import { GanttToolbar } from '../components/toolbar/GanttToolbar';
 import { GanttModals } from '../components/gantt-chart/GanttModals';
 import { GanttBaselineBanner } from '../components/gantt-chart/GanttBaselineBanner';
 import {
@@ -24,7 +24,7 @@ import { useTaskActions } from '../hooks/gantt-view/useTaskActions';
 import { DEFAULT_COLUMNS, CustomColumn } from '../constants';
 
 
-export type { GanttViewMode } from '../components/toolbar/GanttToolbar';
+export type { GanttViewMode } from '../constants';
 
 interface GanttViewProps {
   projectId: string;

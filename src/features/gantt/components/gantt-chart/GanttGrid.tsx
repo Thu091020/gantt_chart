@@ -1,6 +1,6 @@
 import { cn } from '../internal/utils';
 import { isSameDay } from 'date-fns';
-import { GanttViewMode } from '../toolbar/GanttToolbar';
+import { GanttViewMode } from '../../constants';
 
 interface GanttGridProps {
   timelineColumns: {
